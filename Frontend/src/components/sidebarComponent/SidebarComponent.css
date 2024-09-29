@@ -1,0 +1,26 @@
+.main{
+    background-color: aqua;
+    width: fit-content;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 10px;
+    margin-left: 15px;
+    height: 90vh;
+    font-weight: bold;
+
+    .brand-style{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .link-style{
+        display: flex;
+        align-items: center;
+        list-style: none;
+        margin-top: 20px;
+        gap: 10px
+    }
+}
