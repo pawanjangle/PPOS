@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema(
   {
-    name: {
+    productName: {
       type: String,
       required: true,
       trim: true,
     },
-    manufacturer: {
+    manufacturerName: {
       type: String,
       trim: true,
     },
@@ -19,10 +19,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    quantity: {
-      type: String,
-    },
-    Unit: {
+    unit: {
       type: String,
     },
     description: {
@@ -35,7 +32,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
-    productPicture: { type: String, required: true },
+    // productPicture: { type: String, required: true },
     // reviews: [
     //   {
     //     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
