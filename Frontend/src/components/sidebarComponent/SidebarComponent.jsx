@@ -7,8 +7,7 @@ import { FcSalesPerformance } from "react-icons/fc";
 import { TbReportSearch } from "react-icons/tb";
 import { MdPointOfSale } from "react-icons/md";
 import { Link } from "react-router-dom";
-
-
+import { RiBillFill } from "react-icons/ri";
 
 const SidebarComponent = () => {
   return (
@@ -21,6 +20,10 @@ const SidebarComponent = () => {
         <div className="link-style">
           <AiFillHome />
           <Link to="/">Dashboard</Link>
+        </div>
+        <div className="link-style">
+          <RiBillFill />
+          <Link to="/billing">Billing</Link>
         </div>
         <div className="link-style">
           <AiOutlineProduct />

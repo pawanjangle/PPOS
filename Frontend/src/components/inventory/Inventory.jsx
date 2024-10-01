@@ -5,6 +5,9 @@ import DataTableComponent from '../data-table/DataTableComponent'
 import CommonModal from '../common/commonmodal/CommonModal'
 import Form from 'react-bootstrap/Form';
 import { callAllProducts, createProductfunction } from '../../service/Service'
+import { CiEdit } from "react-icons/ci";
+import { MdDeleteForever } from "react-icons/md";
+
 
 const Inventory = () => {
   const [formData, setFormData] = useState({
@@ -17,42 +20,33 @@ const Inventory = () => {
   })
   const [show, setShow] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
-  const [rowData1, setRowData1] = useState([]);
   useEffect(() => {
     handleAllProducts()
   }, []);
 
-  const colDefs = [
-    { field: "srNo"},
-    { field: "productName", headerName: 'Product Name' },
-    { field: "manufacturerName", headerName: 'Manufacturer Name'},
-    { field: "description"},
-    { field: "price", headerName: 'Price per unit'},
-    { field: "unit" },
-    { field: "category"},
-    { field: "actions"},
 
+  const colDefs = [
+    { field: "srNo" },
+    { field: "productName", headerName: 'Product Name' },
+    { field: "manufacturerName", headerName: 'Manufacturer Name' },
+    { field: "description" },
+    { field: "price", headerName: 'Price per unit' },
+    { field: "unit" },
+    { field: "category" }
   ]
 
   const handleAllProducts = () => {
     callAllProducts().then(res => {
       if (res.status == 200) {
-        setAllProducts(res.data.products)
         let data = res.data.products.length !== 0 && res.data.products.map((val, index) => {
           return (
             {
-              srNo : index+1,
-              productName: val.productName,
-              manufacturerName: val.manufacturerName,
-              description: val.description,
-              price: val.price,
-              unit: val.unit,
-              category: val.category,
+              ...val,
+              srNo: index + 1,
             }
           )
         })
-        setRowData1(data)
-        console.log(data)
+        setAllProducts(data)
       }
       else if (res.status == 400) {
         console.log(res.data.message)
@@ -134,8 +128,8 @@ const Inventory = () => {
         <Button className="add-button" onClick={handleShow}>Create Product</Button>
         <CommonModal show={show} handleClose={handleClose} modalHeading="Create Product" modalBody={modalBody} submitModalButton="Create Product" handleSubmit={handleSubmit} />
       </div>
-      {rowData1.length !== 0 &&
-        <DataTableComponent rowData1={rowData1} colDefs1={colDefs} />
+      {allProducts.length !== 0 &&
+        <DataTableComponent allProducts={allProducts} allColumns={colDefs} />
       }
     </>
   )

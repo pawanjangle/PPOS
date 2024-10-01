@@ -36,3 +36,16 @@ exports.getproducts = async (req, res) => {
         res.json({ err })
     }
 }
+exports.updateProduct = async (req, res) => {
+    const { _id, productName, manufacturerName, price, unit, description, category } = req.body;
+    const newProduct = {
+        productName, manufacturerName, price, unit, description, category
+    };
+    const product = await Product.findOneAndUpdate({ _id }, newProduct, { new: true });
+    if (product) {
+        return res.status(200).json({ message: "Product updated successfully", product });
+    }
+    else {
+        return res.json({ error: "Failed to update product" })
+    }
+};

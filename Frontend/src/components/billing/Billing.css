@@ -1,0 +1,11 @@
+.wrapper{
+    display: flex;
+    height: 100vh;
+}
+.left-side{
+    width: 60%;
+}
+.table-style{
+    background-color: blue;
+    height: 100vh;
+}
