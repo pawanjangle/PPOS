@@ -18,15 +18,15 @@ const Billing = () => {
     const [rowData, setRowData] = useState(cartProducts);
     const [selectedItem, setSelectedItem] = useState("");
     const [total, setTotal] = useState(0);
-    const [colDefs, setColDefs] = useState([{ field: "productName", headerName: 'Product Name' },
-    { field: "quantity" },
+    const [colDefs, setColDefs] = useState([{
+        field: "sNo", headerName: 'S. No.', width: 100,
+    }, { field: "productName", headerName: 'Product Name' },
+    { field: "quantity", width: 100 },
     { field: "manufacturerName", headerName: 'Manufacturer Name' },
-    { field: "price", headerName: 'Price per unit' },
-    { field: "unit" },
+    { field: "price", headerName: 'Price per unit', width: 100 },
+    { field: "unit", width: 100 },
     ]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
-
-
 
     useEffect(() => {
         handleAllProducts()
@@ -54,10 +54,14 @@ const Billing = () => {
 
 
     const handleChange = (product) => {
-        setSelectedItem(product)
+        if(product.length == 0 || cartProducts.includes( product[0])) {
+            setSelectedItem(product)
+            return
+        }
         if (product.length !== 0) {
             product[0].quantity = 1;
-            setSelectedItem(product)
+            product[0].sNo = cartProducts.length + 1,
+                setSelectedItem(product)
             let allCartProduct = [
                 ...cartProducts,
                 product[0],
@@ -100,6 +104,8 @@ const Billing = () => {
         setTotal(0);
         setCartProducts([])
     }
+
+
 
     return (
         <div className="wrapper">

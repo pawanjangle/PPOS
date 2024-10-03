@@ -1,20 +1,30 @@
 .main-container{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     margin-bottom: 30px;
+    margin-right: 5px;
 
-    .heading-style{
+    .heading-div{
+        width: 100%;
         display: flex;
+        justify-content: space-between;
         align-items: center;
+        padding-right: 5px;
+    }
+    .heading-style{
+        /* display: flex; */
         font-weight: bolder;
-        font-size: 20px;
-        gap: 10px;
     }
     
     .add-button{
         background-color: aqua;
         color: black;
+    }
+    .import-button{
+        margin-right: 10px;
+    }
+    .data-table-div{
+        /* padding-right: 5px; */
+        height: 100%;
     }
 }

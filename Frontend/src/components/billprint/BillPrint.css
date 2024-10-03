@@ -1,0 +1,40 @@
+.outer-div {
+    /* height: 3in;
+    width: 2in; */
+    height: 3in;
+    width: 3in;
+}
+
+@media print {
+    @page {
+        size: 80mm 80mm;
+        /* margin: 1mm; */
+
+    }
+}
+.shop-details{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.cart-details{
+    display: flex;
+    justify-content: space-between;
+}
+.total-details-div{
+    display: flex;
+    justify-content: space-between;
+}
+.thead-style{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* @media print {
+  .page-break {
+    margin-top: 1rem;
+    display: block;
+    page-break-before: auto;
+  }
+} */

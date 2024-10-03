@@ -1,6 +1,6 @@
 .wrapper{
     display: flex;
-    height: 100vh;
+    height: 90vh;
     gap: 15px
 }
 .left-side{

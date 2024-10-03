@@ -26,12 +26,12 @@ const Inventory = () => {
 
 
   const colDefs = [
-    { field: "srNo" },
+    { field: "srNo", width: 100 },
     { field: "productName", headerName: 'Product Name' },
     { field: "manufacturerName", headerName: 'Manufacturer Name' },
     { field: "description" },
-    { field: "price", headerName: 'Price per unit' },
-    { field: "unit" },
+    { field: "price", headerName: 'Price per unit', width: 100 },
+    { field: "unit", width: 100 },
     { field: "category" }
   ]
 
@@ -121,16 +121,22 @@ const Inventory = () => {
   return (
     <>
       <div className="main-container">
-        <div className="heading-style">
+        <div className="heading-div">
           <h5>Stocks Inventory</h5>
-          <Button variant="dark">Import Product</Button>
+          <div className="heading-style">
+            <Button variant="dark" className="import-button">Import Product</Button>
+            <Button className="add-button" onClick={handleShow}>Create Product</Button>
+          </div>
         </div>
-        <Button className="add-button" onClick={handleShow}>Create Product</Button>
+
         <CommonModal show={show} handleClose={handleClose} modalHeading="Create Product" modalBody={modalBody} submitModalButton="Create Product" handleSubmit={handleSubmit} />
       </div>
+
       {allProducts.length !== 0 &&
         <DataTableComponent allProducts={allProducts} allColumns={colDefs} />
       }
+
+
     </>
   )
 }

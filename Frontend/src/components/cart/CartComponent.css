@@ -15,7 +15,13 @@
         border-radius: 10px;
         padding-left: 10px;
         padding-right: 10px;
-        padding-top: 10px;
+        padding-top: 15px;
+
+        .cart-button-style{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
 
         .cart-wrapper {
             display: flex;
@@ -24,6 +30,14 @@
                 display: flex;
                 flex-direction: column;
                 width: 70%;
+
+                .product-name{
+                    color:blue;
+                    font-weight: bold;
+                }
+                .product-detail{
+                    color: grey;
+                }
             }
 
             .total-div {
@@ -45,7 +59,7 @@
             }
 
             .horizontal-line {
-                height: 2px;
+                height: 1px;
                 /* border: 1px solid red; */
             }
         }
@@ -61,4 +75,7 @@
             justify-content: space-between;
         }
     }
+}
+.bill-style{
+    visibility: hidden;
 }
