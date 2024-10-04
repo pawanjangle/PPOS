@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import React from 'react'
 import Dashboard from './dashboard/Dashboard';
 import Inventory from './inventory/Inventory';
-import Billing from './Billing/Billing';
+import Billing from './billing/Billing';
 
 const RouterComponent = () => {
     return (
