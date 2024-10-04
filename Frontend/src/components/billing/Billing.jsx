@@ -8,7 +8,7 @@ import { AgGridReact } from 'ag-grid-react'; // React Data Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the Data Grid
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { Html5QrcodeScanner } from "html5-qrcode"
-import ScannerComponent from '../ScannerComponent/ScannerComponent';
+import ScannerComponent from '../scannerComponent/ScannerComponent';
 import CartComponent from '../cart/CartComponent';
 
 
