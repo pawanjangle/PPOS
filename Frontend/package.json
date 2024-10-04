@@ -8,6 +8,7 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "type": "module",
   "dependencies": {
     "@ag-grid-community/react": "^32.2.1",
     "@emotion/react": "^11.13.3",

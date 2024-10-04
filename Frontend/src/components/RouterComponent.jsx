@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import React from 'react'
-import Dashboard from './Dashboard/Dashboard';
+import Dashboard from './dashboard/Dashboard';
 import Inventory from './inventory/Inventory';
 import Billing from './Billing/Billing';
 

@@ -49,7 +49,8 @@ const Billing = () => {
     const defaultColDef = {
         filter: true,
         sortable: true,
-        editable: true
+        editable: true,
+        floatingFilter: true
     }
 
 

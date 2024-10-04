@@ -23,9 +23,9 @@ if (process.env.NODE_ENV === "production") {
 }
 app.use("/api/product/", product);
 
-// app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "Frontend", "dist", "index.html"));
-// });
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "Frontend", "dist", "index.html"));
+});
 app.get('/', (req, res) => {
     res.send("server is ready");
 })

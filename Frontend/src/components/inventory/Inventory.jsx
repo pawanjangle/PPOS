@@ -24,6 +24,9 @@ const Inventory = () => {
     handleAllProducts()
   }, []);
 
+  const handleDelete = (params) > {
+
+  }
 
   const colDefs = [
     { field: "srNo", width: 100 },
@@ -32,7 +35,16 @@ const Inventory = () => {
     { field: "description" },
     { field: "price", headerName: 'Price per unit', width: 100 },
     { field: "unit", width: 100 },
-    { field: "category" }
+    { field: "category" },
+    {
+      field: "Actions", headerName: "Actions", cellRendererFramework: (params) => <div>
+        <CiEdit style={{ color: "blue" }} />
+        <MdDeleteForever style={{ color: "red" }} onClick={() => {
+          // console.log(params.value)
+          // handleDelete(params.value)
+        }} />
+      </div>
+    }
   ]
 
   const handleAllProducts = () => {
@@ -133,7 +145,7 @@ const Inventory = () => {
       </div>
 
       {allProducts.length !== 0 &&
-        <DataTableComponent allProducts={allProducts} allColumns={colDefs} />
+        <DataTableComponent allProducts={allProducts} allColumns={colDefs} rowSelection="single" />
       }
 
 
