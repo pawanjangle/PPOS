@@ -49,3 +49,14 @@ exports.updateProduct = async (req, res) => {
         return res.json({ error: "Failed to update product" })
     }
 };
+
+exports.deleteProduct = async (req, res) => {
+    const { id } = req.params;
+    const isDeleted = await Product.deleteOne({ _id: id })
+    if (isDeleted) {
+        return res.status(200).json({ message: "Product deleted successfully" });
+    }
+    else {
+        return res.json({ error: "Failed to delete product" })
+    }
+};

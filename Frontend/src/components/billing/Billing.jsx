@@ -50,7 +50,6 @@ const Billing = () => {
         filter: true,
         sortable: true,
         editable: true,
-        floatingFilter: true
     }
 
 
@@ -131,7 +130,7 @@ const Billing = () => {
                 </div>
                 {/* <ScannerComponent/> */}
                 {cartProducts.length !== 0 &&
-                    <DataTableComponent allProducts={cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} />
+                    <DataTableComponent allProducts={cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
                 }
             </div>
             <div className="right-side">

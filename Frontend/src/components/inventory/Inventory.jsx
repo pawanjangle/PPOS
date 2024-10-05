@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap"
 import DataTableComponent from '../data-table/DataTableComponent'
 import CommonModal from '../common/commonmodal/CommonModal'
 import Form from 'react-bootstrap/Form';
-import { callAllProducts, createProductfunction } from '../../service/Service'
+import { callAllProducts, createProductfunction, callDeleteProduct, updateProduct } from '../../service/Service'
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 
@@ -24,28 +24,40 @@ const Inventory = () => {
     handleAllProducts()
   }, []);
 
-  const handleDelete = (params) > {
-
+  const handleDelete = (productData) => {
+    callDeleteProduct(productData._id).then(res => {
+      if (res.status === 200) {
+        handleAllProducts()
+      }
+      console.log(res)
+    })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   const colDefs = [
     { field: "srNo", width: 100 },
     { field: "productName", headerName: 'Product Name' },
-    { field: "manufacturerName", headerName: 'Manufacturer Name' },
+    { field: "manufacturerName", headerName: 'Manufacturer Name', width: 150 },
     { field: "description" },
     { field: "price", headerName: 'Price per unit', width: 100 },
     { field: "unit", width: 100 },
     { field: "category" },
     {
-      field: "Actions", headerName: "Actions", cellRendererFramework: (params) => <div>
-        <CiEdit style={{ color: "blue" }} />
-        <MdDeleteForever style={{ color: "red" }} onClick={() => {
-          // console.log(params.value)
-          // handleDelete(params.value)
+      field: "Actions", headerName: "Actions", width: "100px", cellRenderer: (params) => <div>
+        <MdDeleteForever style={{ color: "red", height: "40px" }} onClick={() => {
+          handleDelete(params.data)
         }} />
       </div>
     }
   ]
+  const defaultColDef = {
+    filter: true,
+    sortable: true,
+    editable: true,
+    // floatingFilter: true
+  }
 
   const handleAllProducts = () => {
     callAllProducts().then(res => {
@@ -96,6 +108,18 @@ const Inventory = () => {
         console.log(err)
       })
   }
+
+  const onCellEditingStopped = (data) => {
+    updateProduct(data.data).then(res => {
+      allProducts.map(obj => allProducts.find(o => o._id === obj._id) || data.data);
+      setAllProducts(allProducts)
+    }
+    )
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   const modalBody = <div>
     <Form>
       <Form.Group className="mb-3" controlId="formProduct">
@@ -145,7 +169,7 @@ const Inventory = () => {
       </div>
 
       {allProducts.length !== 0 &&
-        <DataTableComponent allProducts={allProducts} allColumns={colDefs} rowSelection="single" />
+        <DataTableComponent allProducts={allProducts} allColumns={colDefs} rowSelection="single" defaultColDef={defaultColDef} onCellEditingStopped={onCellEditingStopped} />
       }
 
 

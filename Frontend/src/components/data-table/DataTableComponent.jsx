@@ -3,19 +3,13 @@ import { AgGridReact } from 'ag-grid-react'; // React Data Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the Data Grid
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
-export default function DataTableComponent({ allProducts, allColumns, onCellEditingStopped }) {
+export default function DataTableComponent({ allProducts, allColumns, onCellEditingStopped, defaultColDef }) {
 	console.log(allProducts, allColumns)
 	const [rowData, setRowData] = useState(allProducts);
 	const [colDefs, setColDefs] = useState(allColumns);
 	useEffect(()=>{
 		setRowData(allProducts)
 	}, [allProducts])
-	
-	const defaultColDef = {
-		filter: true,
-		sortable: true,
-		editable: true
-	}
 	
 	return (
 		<div
