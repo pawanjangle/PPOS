@@ -1,4 +1,4 @@
-.main{
+.main {
     background-color: aqua;
     width: fit-content;
     padding-left: 40px;
@@ -8,19 +8,30 @@
     height: 90vh;
     font-weight: bold;
 
-    .brand-style{
+    .brand-style {
         margin-top: 15px;
         margin-bottom: 15px;
         display: flex;
         align-items: center;
         gap: 10px;
+
+        .image-style{
+            height: 30px;
+            background-color: aqua;
+        }
     }
 
-    .link-style{
+    .link-style {
         display: flex;
         align-items: center;
         list-style: none;
+        text-decoration: none;
         margin-top: 20px;
-        gap: 10px
+        gap: 10px;
+
+        .link-text-style {
+            text-decoration: none;
+            color: black;
+        }
     }
 }

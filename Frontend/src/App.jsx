@@ -14,9 +14,6 @@ function App() {
       <div className="main-div">
         <SidebarComponent />
         <div className="right-style">
-        {/* <Alert key={"danger"} variant={"danger"}>
-          This is a {"danger"} alert—check it out!
-        </Alert> */}
           <NavbarComponent />
           <RouterComponent />
           <div className="App">

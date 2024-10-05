@@ -105,8 +105,6 @@ const Billing = () => {
         setCartProducts([])
     }
 
-
-
     return (
         <div className="wrapper">
             <div className="left-side">
@@ -114,7 +112,6 @@ const Billing = () => {
                     {allProducts.length !== 0 &&
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicPassword">
-                                {/* <Form.Label>Search Product</Form.Label> */}
                                 <Typeahead
                                     id="basic-typeahead-single"
                                     labelKey="productName"

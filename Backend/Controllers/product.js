@@ -33,7 +33,7 @@ exports.getproducts = async (req, res) => {
     }
     catch (err) {
         console.log(err)
-        res.json({ err })
+        res.status(400).json({ err })
     }
 }
 exports.updateProduct = async (req, res) => {
@@ -41,22 +41,32 @@ exports.updateProduct = async (req, res) => {
     const newProduct = {
         productName, manufacturerName, price, unit, description, category
     };
-    const product = await Product.findOneAndUpdate({ _id }, newProduct, { new: true });
-    if (product) {
-        return res.status(200).json({ message: "Product updated successfully", product });
+    try {
+        const product = await Product.findOneAndUpdate({ _id }, newProduct, { new: true });
+        if (product) {
+            return res.status(200).json({ message: "Product updated successfully", product });
+        }
+        else {
+            return res.status(401).json({ error: "Failed to update product" })
+        }
     }
-    else {
-        return res.json({ error: "Failed to update product" })
+    catch (err) {
+        res.status(400).json(err)
     }
 };
 
 exports.deleteProduct = async (req, res) => {
     const { id } = req.params;
     const isDeleted = await Product.deleteOne({ _id: id })
-    if (isDeleted) {
-        return res.status(200).json({ message: "Product deleted successfully" });
+    try {
+        if (isDeleted) {
+            return res.status(200).json({ message: "Product deleted successfully" });
+        }
+        else {
+            return res.json({ error: "Failed to delete product" })
+        }
     }
-    else {
-        return res.json({ error: "Failed to delete product" })
+    catch (err) {
+        res.status(400).json(err)
     }
 };

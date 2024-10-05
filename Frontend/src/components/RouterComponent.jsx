@@ -3,6 +3,7 @@ import React from 'react'
 import Dashboard from './dashboard/Dashboard';
 import Inventory from './inventory/Inventory';
 import Billing from './billing/Billing';
+import Sales from './sales/Sales';
 
 const RouterComponent = () => {
     return (
@@ -10,7 +11,7 @@ const RouterComponent = () => {
             <Route path='/' element={<Dashboard/>} />
             <Route path='/inventory' element={<Inventory/>} />
             <Route path='/billing' element={<Billing />} />
-            {/* <Route path='/reports' element={<Contact />} /> */}
+            <Route path='/sales' element={<Sales/>} />
         </Routes>)
 }
 

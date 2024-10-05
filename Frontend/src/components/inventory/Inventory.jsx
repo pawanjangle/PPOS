@@ -5,8 +5,8 @@ import DataTableComponent from '../data-table/DataTableComponent'
 import CommonModal from '../common/commonmodal/CommonModal'
 import Form from 'react-bootstrap/Form';
 import { callAllProducts, createProductfunction, callDeleteProduct, updateProduct } from '../../service/Service'
-import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
+import { isEmpty } from '../../shared/validations'
 
 
 const Inventory = () => {
@@ -20,6 +20,10 @@ const Inventory = () => {
   })
   const [show, setShow] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
+  const [errors, setErrors] = useState({ productNameError: "", priceError: "", unitError: "" })
+  const [successMessage, setSuccessMessage] = useState("")
+  const [errorMessages, setErrorMessages] = useState({ productErrorMessage: "Please Enter Product Name", priceErrorMessage: "Please Enter Price", unitErrorMessage: "Please Select Unit" })
+
   useEffect(() => {
     handleAllProducts()
   }, []);
@@ -92,9 +96,59 @@ const Inventory = () => {
       [event.target.name]: event.target.value
     }
     )
+    switch (event.target.name) {
+      case "productName":
+        if (isEmpty(event.target.value)) {
+          setErrors({
+            ...errors,
+            productNameError: errorMessages.productErrorMessage
+          })
+        }
+        else {
+          setErrors({
+            ...errors,
+            productNameError: ""
+          })
+        }
+        break;
+      case "price":
+        if (isEmpty(event.target.value)) {
+          setErrors({
+            ...errors,
+            priceError: errorMessages.priceErrorMessage
+          })
+        }
+        else {
+          setErrors({
+            ...errors,
+            priceError: ""
+          })
+        }
+        break;
+      case "unit":
+        if (isEmpty(event.target.value)) {
+          setErrors({
+            ...errors,
+            unitError: errorMessages.unitErrorMessage
+          })
+        }
+        else {
+          setErrors({
+            ...errors,
+            unitError: ""
+          })
+        }
+        break;
+      default: return;
+    }
   }
-  const handleSubmit = () => {
-    console.log(formData)
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+      if (errors.productNameError !== "" || errors.priceError !== "" || errors.unitError !== "") {
+        return
+      }
     createProductfunction(formData).then(res => {
       if (res.status == 200) {
         console.log(res.data.message)
@@ -126,6 +180,7 @@ const Inventory = () => {
         <Form.Label>Product Name</Form.Label>
         <Form.Control type="text" placeholder="Product Name" name="productName" value={formData.productName} onChange={handleChange} required />
       </Form.Group>
+      {errors.productNameError !== "" && <p className="error-style">{errors.productNameError}</p>}
       <Form.Group className="mb-3" controlId="formProduct">
         <Form.Label>Manufacturer Name</Form.Label>
         <Form.Control type="text" placeholder="Manufacturer Name" name="manufacturerName" value={formData.manufacturerName} onChange={handleChange} required />
@@ -138,6 +193,8 @@ const Inventory = () => {
         <Form.Label>Price in Rs.</Form.Label>
         <Form.Control type="number" placeholder="Price" name="price" value={formData.price} onChange={handleChange} />
       </Form.Group>
+      {errors.priceError !== "" && <p className="error-style">{errors.priceError}</p>}
+
       <Form.Group className="mb-3" controlId="formUnit">
         <Form.Label>Unit</Form.Label>
         <Form.Select aria-label="unit" name="unit" value={formData.unit} onChange={handleChange}>
@@ -147,9 +204,11 @@ const Inventory = () => {
           <option value="piece">Piece</option>
         </Form.Select>
       </Form.Group>
+      {errors.unitError !== "" && <p className="error-style">{errors.unitError}</p>}
+
       <Form.Group className="mb-3" controlId="formCategory">
         <Form.Label>Category</Form.Label>
-        <Form.Control type="number" placeholder="Category" name="category" value={formData.category} onChange={handleChange} />
+        <Form.Control type="text" placeholder="Category" name="category" value={formData.category} onChange={handleChange} />
       </Form.Group>
     </Form>
   </div>

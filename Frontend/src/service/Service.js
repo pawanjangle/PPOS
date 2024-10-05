@@ -14,7 +14,7 @@ export const createProductfunction = async (product) => {
     }
     catch (err) {
         console.log(err)
-        return err.response
+        return err
     }
 }
 export const callAllProducts = async (paylaod) => {
@@ -24,7 +24,7 @@ export const callAllProducts = async (paylaod) => {
     }
     catch (err) {
         console.log(err)
-        return err.response
+        return err
     }
 }
 export const updateProduct = async (payload) => {
@@ -34,7 +34,7 @@ export const updateProduct = async (payload) => {
     }
     catch (err) {
         console.log(err)
-        return err.response
+        return err
     }
 }
 export const callDeleteProduct = async (payload) => {
@@ -44,6 +44,6 @@ export const callDeleteProduct = async (payload) => {
     }
     catch (err) {
         console.log(err)
-        return err.response
+        return err
     }
 }
