@@ -74,6 +74,13 @@
             display: flex;
             justify-content: space-between;
         }
+        .pay-button{
+            background-color: aqua; 
+            color: black;
+        }
+        .payStatus{
+            font-weight: bold;
+        }
     }
 }
 .bill-style{
