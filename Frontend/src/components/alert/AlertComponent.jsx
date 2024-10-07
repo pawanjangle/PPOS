@@ -1,9 +1,10 @@
 import React from 'react'
+import { Alert } from 'react-bootstrap'
 
-const AlertComponent = ({ alertMessage, alertType }) => {
+const AlertComponent = ({ alertMessage, alertType, alertState }) => {
     return (
         <div>
-            <Alert variant={alertType} >
+            <Alert show ={alertState} variant={alertType} >
                 {alertMessage}
             </Alert>
         </div>

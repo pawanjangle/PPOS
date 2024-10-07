@@ -20,11 +20,13 @@ const Billing = () => {
     const [total, setTotal] = useState(0);
     const [colDefs, setColDefs] = useState([{
         field: "sNo", headerName: 'S. No.', width: 100,
-    }, { field: "productName", headerName: 'Product Name' },
-    { field: "quantity", width: 100 },
-    { field: "manufacturerName", headerName: 'Manufacturer Name' },
-    { field: "price", headerName: 'Price per unit', width: 100 },
-    { field: "unit", width: 100 },
+    }, {
+        field: "productName", headerName: 'Product Name', editable: true
+    },
+    { field: "quantity", width: 100, editable: true },
+    { field: "manufacturerName", headerName: 'Manufacturer Name', editable: true },
+    { field: "price", headerName: 'Price per unit', width: 100, editable: true },
+    { field: "unit", width: 100, editable: true },
     ]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
@@ -49,12 +51,11 @@ const Billing = () => {
     const defaultColDef = {
         filter: true,
         sortable: true,
-        editable: true,
     }
 
 
     const handleChange = (product) => {
-        if(product.length == 0 || cartProducts.includes( product[0])) {
+        if (product.length == 0 || cartProducts.includes(product[0])) {
             setSelectedItem(product)
             return
         }
@@ -95,7 +96,16 @@ const Billing = () => {
     }
 
     const handleRemoveFromCart = (selectedCartItemId) => {
-        let finalCart = cartProducts.filter(product => product._id !== selectedCartItemId);
+        let filteredCart = cartProducts.filter(product => product._id !== selectedCartItemId);
+        let finalCart = filteredCart.map((cartProduct, index) => {
+            return (
+                {
+                    ...cartProduct,
+                    sNo: index + 1
+                }
+            )
+        })
+        console.log(finalCart)
         calculateTotal(finalCart)
         setTotal(calculateTotal(finalCart));
         setCartProducts(finalCart)

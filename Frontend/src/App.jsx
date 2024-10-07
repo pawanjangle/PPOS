@@ -4,10 +4,13 @@ import SidebarComponent from './components/sidebarComponent/SidebarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RouterComponent from './components/RouterComponent';
 import NavbarComponent from './components/NavbarComponent/NavbarComponent';
-import Alert from 'react-bootstrap/Alert';
+import AlertComponent from './components/alert/AlertComponent';
+import { useSelector } from 'react-redux'
 
 
 function App() {
+  const alert = useSelector((state) => state.alert)
+  console.log(alert)
 
   return (
     <>
@@ -17,7 +20,7 @@ function App() {
           <NavbarComponent />
           <RouterComponent />
           <div className="App">
-        </div>
+          </div>
         </div>
       </div>
     </>

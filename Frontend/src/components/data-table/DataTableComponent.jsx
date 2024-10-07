@@ -4,7 +4,6 @@ import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the 
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
 export default function DataTableComponent({ allProducts, allColumns, onCellEditingStopped, defaultColDef }) {
-	console.log(allProducts, allColumns)
 	const [rowData, setRowData] = useState(allProducts);
 	const [colDefs, setColDefs] = useState(allColumns);
 	useEffect(()=>{

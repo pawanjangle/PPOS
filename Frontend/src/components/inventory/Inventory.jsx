@@ -7,9 +7,14 @@ import Form from 'react-bootstrap/Form';
 import { callAllProducts, createProductfunction, callDeleteProduct, updateProduct } from '../../service/Service'
 import { MdDeleteForever } from "react-icons/md";
 import { isEmpty } from '../../shared/validations'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { showAlert } from '../../redux/features/AlertSlice'
+import AlertComponent from '../alert/AlertComponent'
 
 const Inventory = () => {
+  const alert = useSelector((state) => state.alert)
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     productName: "",
     manufacturerName: "",
@@ -42,12 +47,12 @@ const Inventory = () => {
 
   const colDefs = [
     { field: "srNo", width: 100 },
-    { field: "productName", headerName: 'Product Name' },
-    { field: "manufacturerName", headerName: 'Manufacturer Name', width: 150 },
-    { field: "description" },
-    { field: "price", headerName: 'Price per unit', width: 100 },
-    { field: "unit", width: 100 },
-    { field: "category" },
+    { field: "productName", headerName: 'Product Name', editable: true },
+    { field: "manufacturerName", headerName: 'Manufacturer Name', width: 150, editable: true },
+    { field: "description", editable: true },
+    { field: "price", headerName: 'Price per unit', width: 100, editable: true },
+    { field: "unit", width: 100, editable: true },
+    { field: "category", editable: true },
     {
       field: "Actions", headerName: "Actions", width: "100px", cellRenderer: (params) => <div>
         <MdDeleteForever style={{ color: "red", height: "40px" }} onClick={() => {
@@ -59,7 +64,6 @@ const Inventory = () => {
   const defaultColDef = {
     filter: true,
     sortable: true,
-    editable: true,
     // floatingFilter: true
   }
 
@@ -146,17 +150,42 @@ const Inventory = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-      if (errors.productNameError !== "" || errors.priceError !== "" || errors.unitError !== "") {
-        return
-      }
+    if (formData.productName == "" || formData.price == "" || formData.unit == "") {
+      return
+    }
     createProductfunction(formData).then(res => {
       if (res.status == 200) {
-        console.log(res.data.message)
+        dispatch(showAlert({
+          alertState: true,
+          alertType: "success",
+          alertMessage: res.data.message
+        }))
+        setTimeout(() => {
+          dispatch(showAlert({
+            alertState: false,
+            alertType: "",
+            alertMessage: ""
+          }))
+        }, 2000
+        )
         handleAllProducts()
       }
       else if (res.status == 400) {
-        console.log(res.data.message)
+        dispatch(showAlert({
+          alertState: true,
+          alertType: "danger",
+          alertMessage: res.response.data.message
+        }))
+        setTimeout(() => {
+          dispatch(showAlert({
+            alertState: false,
+            alertType: "",
+            alertMessage: ""
+          }))
+        }, 2000
+        )
       }
+      handleClose()
     })
       .catch(err => {
         console.log(err)
@@ -165,8 +194,23 @@ const Inventory = () => {
 
   const onCellEditingStopped = (data) => {
     updateProduct(data.data).then(res => {
-      allProducts.map(obj => allProducts.find(o => o._id === obj._id) || data.data);
-      setAllProducts(allProducts)
+      if (res.status === 200) {
+        allProducts.map(obj => allProducts.find(o => o._id === obj._id) || data.data);
+        setAllProducts(allProducts)
+        dispatch(showAlert({
+          alertState: true,
+          alertType: "success",
+          alertMessage: res.data.message
+        }))
+        setTimeout(() => {
+          dispatch(showAlert({
+            alertState: false,
+            alertType: "",
+            alertMessage: ""
+          }))
+        }, 2000
+        )
+      }
     }
     )
       .catch(err => {
@@ -200,6 +244,7 @@ const Inventory = () => {
         <Form.Select aria-label="unit" name="unit" value={formData.unit} onChange={handleChange}>
           <option>select Unit</option>
           <option value="kg">KG</option>
+          <option value="kg">G</option>
           <option value="litre">litre</option>
           <option value="piece">Piece</option>
         </Form.Select>
@@ -216,10 +261,11 @@ const Inventory = () => {
   return (
     <>
       <div className="main-container">
+        <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />
         <div className="heading-div">
           <h5>Stocks Inventory</h5>
           <div className="heading-style">
-            <Button variant="dark" className="import-button">Import Product</Button>
+            {/* <Button variant="dark" className="import-button">Import Product</Button> */}
             <Button className="add-button" onClick={handleShow}>Create Product</Button>
           </div>
         </div>
