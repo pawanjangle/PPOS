@@ -10,9 +10,13 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import { Html5QrcodeScanner } from "html5-qrcode"
 import ScannerComponent from '../scannerComponent/ScannerComponent';
 import CartComponent from '../cart/CartComponent';
-
+import AlertComponent from '../alert/AlertComponent'
+import { useDispatch, useSelector } from 'react-redux'
+import { showAlert } from '../../redux/features/AlertSlice'
 
 const Billing = () => {
+    const alert = useSelector((state) => state.alert)
+    const dispatch = useDispatch();
     const [allProducts, setAllProducts] = useState([]);
     const [cartProducts, setCartProducts] = useState([]);
     const [rowData, setRowData] = useState(cartProducts);
@@ -38,7 +42,7 @@ const Billing = () => {
         callAllProducts().then(res => {
             if (res.status == 200) {
                 setAllProducts(res.data.products)
-            }
+            } 
             else if (res.status == 400) {
                 console.log(res.data.message)
             }
@@ -75,10 +79,21 @@ const Billing = () => {
     const onCellEditingStopped = (data) => {
         updateProduct(data.data).then(res => {
             cartProducts.map(obj => cartProducts.find(o => o._id === obj._id) || data.data);
-            console.log(cartProducts)
-
             setCartProducts(cartProducts)
             setTotal(calculateTotal(cartProducts));
+            dispatch(showAlert({
+                alertState: true,
+                alertType: "success",
+                alertMessage: res.data.message
+            }))
+            setTimeout(() => {
+                dispatch(showAlert({
+                    alertState: false,
+                    alertType: "",
+                    alertMessage: ""
+                }))
+            }, 2000
+            )
             forceUpdate();
         }
         )
@@ -105,7 +120,6 @@ const Billing = () => {
                 }
             )
         })
-        console.log(finalCart)
         calculateTotal(finalCart)
         setTotal(calculateTotal(finalCart));
         setCartProducts(finalCart)
@@ -116,34 +130,37 @@ const Billing = () => {
     }
 
     return (
-        <div className="wrapper">
-            <div className="left-side">
-                <div className="form-width">
-                    {allProducts.length !== 0 &&
-                        <Form>
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Typeahead
-                                    id="basic-typeahead-single"
-                                    labelKey="productName"
-                                    onChange={handleChange}
-                                    options={allProducts}
-                                    placeholder="Choose a Product..."
-                                    selected={selectedItem}
-                                    autoFocus
-                                />
-                            </Form.Group>
-                        </Form>
+        <>
+            <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />
+            <div className="wrapper">
+                <div className="left-side">
+                    <div className="form-width">
+                        {allProducts.length !== 0 &&
+                            <Form>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Typeahead
+                                        id="basic-typeahead-single"
+                                        labelKey="productName"
+                                        onChange={handleChange}
+                                        options={allProducts}
+                                        placeholder="Choose a Product..."
+                                        selected={selectedItem}
+                                        autoFocus
+                                    />
+                                </Form.Group>
+                            </Form>
+                        }
+                    </div>
+                    {/* <ScannerComponent/> */}
+                    {cartProducts.length !== 0 &&
+                        <DataTableComponent allProducts={cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
                     }
                 </div>
-                {/* <ScannerComponent/> */}
-                {cartProducts.length !== 0 &&
-                    <DataTableComponent allProducts={cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
-                }
+                <div className="right-side">
+                    <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} />
+                </div>
             </div>
-            <div className="right-side">
-                <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} />
-            </div>
-        </div>
+        </>
     )
 }
 

@@ -1,10 +1,10 @@
 const Product = require("../Models/product");
 const slugify = require('slugify');
 exports.createproduct = async (req, res) => {
-    const { productName, manufacturerName, price, unit, description, category } = req.body;
+    const { productName, manufacturerName, price, unit, description, category, productNameInHindi } = req.body;
     const newProduct = new Product({
         productName, slug: slugify(productName),
-        manufacturerName, price, unit, description, category
+        manufacturerName, price, unit, description, category, productNameInHindi
     })
     try {
         const product = await newProduct.save();

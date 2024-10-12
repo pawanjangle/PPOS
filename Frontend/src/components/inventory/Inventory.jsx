@@ -10,13 +10,17 @@ import { isEmpty } from '../../shared/validations'
 import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '../../redux/features/AlertSlice'
 import AlertComponent from '../alert/AlertComponent'
+import axios from 'axios'
 
 const Inventory = () => {
+  const API_KEY = import.meta.env.VITE_API_KEY
+  const API_URL = 'https://translation.googleapis.com/language/translate/v2';
   const alert = useSelector((state) => state.alert)
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     productName: "",
+    productNameInHindi: "",
     manufacturerName: "",
     price: "",
     unit: "",
@@ -36,6 +40,19 @@ const Inventory = () => {
   const handleDelete = (productData) => {
     callDeleteProduct(productData._id).then(res => {
       if (res.status === 200) {
+        dispatch(showAlert({
+          alertState: true,
+          alertType: "success",
+          alertMessage: res.data.message
+        }))
+        setTimeout(() => {
+          dispatch(showAlert({
+            alertState: false,
+            alertType: "",
+            alertMessage: ""
+          }))
+        }, 2000
+        )
         handleAllProducts()
       }
       console.log(res)
@@ -93,16 +110,36 @@ const Inventory = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const handleChange = (event) => {
+  const handleProductNameChange = async (text) => {
+    const response = await axios.post(
+      `${API_URL}?key=${API_KEY}`,
+      {
+        q: text,
+        target: 'hi',
+      }
+    );
     setFormData({
       ...formData,
-      [event.target.name]: event.target.value
+      productName: text,
+      productNameInHindi: response.data.data.translations[0].translatedText
+    })
+  }
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    if (name == 'productName') {
+      handleProductNameChange(value)
     }
-    )
-    switch (event.target.name) {
+    else {
+      setFormData({
+        ...formData,
+        [name]: value
+      })
+    }
+    switch (name) {
       case "productName":
-        if (isEmpty(event.target.value)) {
+        if (isEmpty(value)) {
           setErrors({
             ...errors,
             productNameError: errorMessages.productErrorMessage
@@ -116,7 +153,7 @@ const Inventory = () => {
         }
         break;
       case "price":
-        if (isEmpty(event.target.value)) {
+        if (isEmpty(value)) {
           setErrors({
             ...errors,
             priceError: errorMessages.priceErrorMessage
@@ -130,7 +167,7 @@ const Inventory = () => {
         }
         break;
       case "unit":
-        if (isEmpty(event.target.value)) {
+        if (isEmpty(value)) {
           setErrors({
             ...errors,
             unitError: errorMessages.unitErrorMessage
@@ -225,6 +262,7 @@ const Inventory = () => {
         <Form.Control type="text" placeholder="Product Name" name="productName" value={formData.productName} onChange={handleChange} required />
       </Form.Group>
       {errors.productNameError !== "" && <p className="error-style">{errors.productNameError}</p>}
+      <p>{formData.productNameInHindi}</p>
       <Form.Group className="mb-3" controlId="formProduct">
         <Form.Label>Manufacturer Name</Form.Label>
         <Form.Control type="text" placeholder="Manufacturer Name" name="manufacturerName" value={formData.manufacturerName} onChange={handleChange} required />

@@ -4,9 +4,8 @@ import SidebarComponent from './components/sidebarComponent/SidebarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RouterComponent from './components/RouterComponent';
 import NavbarComponent from './components/NavbarComponent/NavbarComponent';
-import AlertComponent from './components/alert/AlertComponent';
 import { useSelector } from 'react-redux'
-
+import TranslateComponent from './components/translate/TranslateComponent';
 
 function App() {
   const alert = useSelector((state) => state.alert)

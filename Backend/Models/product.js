@@ -6,6 +6,11 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    productNameInHindi: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     manufacturerName: {
       type: String,
       trim: true,
