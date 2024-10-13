@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import "./Billing.css"
-import { callAllProducts, updateProduct } from '../../service/Service'
+import { callAllProducts, callcreateOrder, updateProduct } from '../../service/Service'
 import DataTableComponent from '../data-table/DataTableComponent'
 import Form from 'react-bootstrap/Form';
 import { Typeahead } from 'react-bootstrap-typeahead';
@@ -25,10 +25,12 @@ const Billing = () => {
     const [colDefs, setColDefs] = useState([{
         field: "sNo", headerName: 'S. No.', width: 100,
     }, {
-        field: "productName", headerName: 'Product Name', editable: true
+        field: "productName", headerName: 'Product Name', filter: true
+    }, {
+        field: "productNameInHindi", headerName: 'Product Display Name'
     },
     { field: "quantity", width: 100, editable: true },
-    { field: "manufacturerName", headerName: 'Manufacturer Name', editable: true },
+    { field: "manufacturerName", headerName: 'Manufacturer Name', editable: true, filter: true },
     { field: "price", headerName: 'Price per unit', width: 100, editable: true },
     { field: "unit", width: 100, editable: true },
     ]);
@@ -42,7 +44,7 @@ const Billing = () => {
         callAllProducts().then(res => {
             if (res.status == 200) {
                 setAllProducts(res.data.products)
-            } 
+            }
             else if (res.status == 400) {
                 console.log(res.data.message)
             }
@@ -53,7 +55,6 @@ const Billing = () => {
             })
     }
     const defaultColDef = {
-        filter: true,
         sortable: true,
     }
 
@@ -129,6 +130,27 @@ const Billing = () => {
         setCartProducts([])
     }
 
+    const createOrder= (payload)=>{
+        callcreateOrder(payload).then((res => {
+            if (res.status == 200) {
+                dispatch(showAlert({
+                    alertState: true,
+                    alertType: "success",
+                    alertMessage: res.data.message
+                }))
+                setTimeout(() => {
+                    dispatch(showAlert({
+                        alertState: false,
+                        alertType: "",
+                        alertMessage: ""
+                    }))
+                }, 2000
+                )
+            }
+        }));
+    }
+    
+
     return (
         <>
             <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />
@@ -157,7 +179,7 @@ const Billing = () => {
                     }
                 </div>
                 <div className="right-side">
-                    <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} />
+                    <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} createOrder={createOrder} />
                 </div>
             </div>
         </>

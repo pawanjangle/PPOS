@@ -19,7 +19,8 @@
     "express": "^4.21.0",
     "mongoose": "^8.6.3",
     "react-to-print": "^3.0.1",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

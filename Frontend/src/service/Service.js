@@ -4,7 +4,8 @@ let endPoint = {
     createproduct: "/api/product/create-product",
     getproducts: "/api/product/get-products",
     updateproduct: "/api/product/update-product",
-    deleteProduct: "/api/product/delete-product"
+    deleteProduct: "/api/product/delete-product",
+    createOrder: "/api/product/create-order"
 }
 export const createProductfunction = async (product) => {
     try {
@@ -40,6 +41,17 @@ export const updateProduct = async (payload) => {
 export const callDeleteProduct = async (payload) => {
     try {
         const res = await axios.delete(`${baseUrl}${endPoint.deleteProduct}/${payload}`)
+        return res
+    }
+    catch (err) {
+        console.log(err)
+        return err
+    }
+}
+export const callcreateOrder = async (order) => {
+    try {
+        const res = await axios.post(baseUrl + endPoint.createOrder, order)
+        console.log(res)
         return res
     }
     catch (err) {
