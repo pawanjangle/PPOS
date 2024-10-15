@@ -16,7 +16,7 @@ const BillPrint = ({ innerRef, shopName, cartProducts, customerName, total, paym
                         <p>{index + 1}</p>
                         <p>{product.productNameInHindi}</p>
                         <p>{product.quantity}{product.unit}</p>
-                        <p>{product.price}</p>
+                        <p>{product.quantity * product.price}</p>
                     </div>
                 )
             })}
