@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:5000"
+const baseUrl = "https://ppos.onrender.com"
 import axios from 'axios';
 let endPoint = {
     createproduct: "/api/product/create-product",
