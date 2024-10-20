@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config()
 const path = require("path");
 const product = require("./Routes/product");
+const order = require("./Routes/order");
 const bodyParser = require("body-parser")
 const cors = require("cors")
 
@@ -22,6 +23,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 }
 app.use("/api/product/", product);
+app.use("/api/order/", order);
 
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../Frontend", "dist", "index.html"));

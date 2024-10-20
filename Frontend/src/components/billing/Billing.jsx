@@ -150,6 +150,21 @@ const Billing = () => {
         }));
     }
     
+    const handleAlert = ()=>{
+        dispatch(showAlert({
+            alertState: true,
+            alertType: "danger",
+            alertMessage: "Please Enter Customer name"
+        }))
+        setTimeout(() => {
+            dispatch(showAlert({
+                alertState: false,
+                alertType: "",
+                alertMessage: ""
+            }))
+        }, 2000
+        )
+    }
 
     return (
         <>
@@ -179,7 +194,7 @@ const Billing = () => {
                     }
                 </div>
                 <div className="right-side">
-                    <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} createOrder={createOrder} />
+                    <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} createOrder={createOrder} handleAlert={handleAlert} />
                 </div>
             </div>
         </>

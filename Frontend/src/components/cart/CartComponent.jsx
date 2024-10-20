@@ -8,10 +8,13 @@ import { IoPrintSharp } from "react-icons/io5";
 import { useReactToPrint } from 'react-to-print';
 import BillPrint from '../billprint/BillPrint';
 import { Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { showAlert } from '../../redux/features/AlertSlice';
 
-const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDeleteCart, createOrder }) => {
+const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDeleteCart, createOrder, handleAlert }) => {
     const [formData, setFormData] = useState({ customerName: "" })
     const [paymentStatus, setPaymentStatus] = useState("UnPaid")
+    const dispatch = useDispatch()
     const contentRef = useRef();
     const handlePrint = useReactToPrint({ contentRef });
     const shopName = "MK kirana stores"
@@ -27,7 +30,18 @@ const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDelete
         setPaymentStatus(value)
     }
 
+    const validatePayment = ()=>{
+        if(paymentStatus == "UnPaid" && formData.customerName == ""){
+            handleAlert()
+            return false
+        }
+        return true
+    }
+
     const handleOrder = () => {
+        if(!validatePayment()){
+            return
+        }
         let payload = {
             customerName : formData.customerName,
             shopName,
@@ -83,7 +97,7 @@ const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDelete
                 <div className="d-flex justify-content-between align-items-center">
                     <p>Payment Status: <span className="payStatus">{paymentStatus}</span></p>
                     <div className="payment-form">
-                        <Form.Select aria-label="Default select example" onChange={(e) => handlePaymentStatus(e.target.value)}>
+                        <Form.Select aria-label="Default select example" onChange={(e) => handlePaymentStatus(e.target.value)} value={paymentStatus}>
                             <option disabled={true}>Please Select</option>
                             <option value="Paid">Paid</option>
                             <option value="UnPaid">UnPaid</option>

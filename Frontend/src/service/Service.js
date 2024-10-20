@@ -1,11 +1,13 @@
-const baseUrl = "https://ppos.onrender.com"
+const baseUrl = "http://localhost:5000"
 import axios from 'axios';
 let endPoint = {
     createproduct: "/api/product/create-product",
     getproducts: "/api/product/get-products",
     updateproduct: "/api/product/update-product",
     deleteProduct: "/api/product/delete-product",
-    createOrder: "/api/product/create-order"
+    createOrder: "/api/order/create-order",
+    getOrders: "/api/order/get-orders",
+    deleteOrder: "/api/order/delete-order"
 }
 export const createProductfunction = async (product) => {
     try {
@@ -52,6 +54,27 @@ export const callcreateOrder = async (order) => {
     try {
         const res = await axios.post(baseUrl + endPoint.createOrder, order)
         console.log(res)
+        return res
+    }
+    catch (err) {
+        console.log(err)
+        return err
+    }
+}
+export const getOrders = async () => {
+    try {
+        const res = await axios.get(baseUrl + endPoint.getOrders)
+        return res
+    }
+    catch (err) {
+        console.log(err)
+        return err
+    }
+}
+
+export const callDeleteOrder = async (payload) => {
+    try {
+        const res = await axios.delete(`${baseUrl}${endPoint.deleteOrder}/${payload}`)
         return res
     }
     catch (err) {
