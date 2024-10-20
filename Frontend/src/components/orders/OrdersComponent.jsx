@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from 'react';
-import './OrdersComponent.css';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { getOrders, callDeleteOrder } from '../../service/Service';
@@ -113,16 +112,16 @@ const OrdersComponent = () => {
                 onSelect={(k) => setKey(k)}
                 className="mb-3"
             >
-                <Tab eventKey="home" title="Paid Orders" className="tab-height">
+                <Tab eventKey="home" title="Paid Orders" style={{ height: "90vh", marginRight: "10px" }}>
                     {paidOrders.length !== 0 ?
                         <DataTableComponent allProducts={paidOrders} allColumns={colDefs} defaultColDef={defaultColDef} /> :
-                        <p className="no-order">No Orders</p>
+                        <p style={{ marginLeft: "20px" }}>No Orders</p>
                     }
                 </Tab>
-                <Tab eventKey="profile" title="Unpaid Orders" className="tab-height">
+                <Tab eventKey="profile" title="Unpaid Orders" style={{ height: "90vh", marginRight: "10px" }}>
                     {unpaidOrders.length !== 0 ?
                         <DataTableComponent allProducts={unpaidOrders} allColumns={colDefs} defaultColDef={defaultColDef} /> :
-                        <p className="no-order">No Orders</p>
+                        <p style={{ marginLeft: "20px" }}>No Orders</p>
                     }            </Tab>
             </Tabs>
         </div>
