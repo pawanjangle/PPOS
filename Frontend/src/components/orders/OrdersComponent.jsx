@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import './OrdersComponent.css'
+import './OrdersComponent.css';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { getOrders, callDeleteOrder } from '../../service/Service';
