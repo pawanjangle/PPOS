@@ -5,7 +5,7 @@ import Inventory from './inventory/Inventory';
 import Billing from './billing/Billing';
 import Sales from './sales/Sales';
 import OrdersComponent from './orders/OrdersComponent';
-import LoginComponent from './Login/LoginComponent';
+import LoginComponent from './login/LoginComponent';
 import SignUpComponent from './signup/SignUpComponent';
 
 const RouterComponent = () => {
