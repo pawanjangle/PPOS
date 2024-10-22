@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react'
 import './App.css'
-import SidebarComponent from './components/sidebarComponent/SidebarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RouterComponent from './components/RouterComponent';
-import NavbarComponent from './components/NavbarComponent/NavbarComponent';
-import LoginComponent from './components/Login/LoginComponent';
-import SignUpComponent from './components/signup/SignUpComponent';
 import { jwtVerify } from 'jose';
 import { useNavigate } from 'react-router-dom';
 
