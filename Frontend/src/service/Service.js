@@ -7,7 +7,9 @@ let endPoint = {
     deleteProduct: "/api/product/delete-product",
     createOrder: "/api/order/create-order",
     getOrders: "/api/order/get-orders",
-    deleteOrder: "/api/order/delete-order"
+    deleteOrder: "/api/order/delete-order",
+    signup: "/api/auth/signup",
+    signin: "/api/auth/signin"
 }
 export const createProductfunction = async (product) => {
     try {
@@ -79,6 +81,29 @@ export const callDeleteOrder = async (payload) => {
     }
     catch (err) {
         console.log(err)
+        return err
+    }
+}
+
+export const signupFunction = async (payload) => {
+    try {
+        const res = await axios.post(baseUrl + endPoint.signup, payload)
+        console.log(res)
+        return res
+    }  
+    catch (err) {
+        console.log(err)
+        return err
+    }
+}
+export const signinFunction = async (payload) => {
+    try {
+        const res = await axios.post(baseUrl + endPoint.signin, payload)
+        console.log(res)
+        return res
+    }  
+    catch (err) {
+        console.log(err) 
         return err
     }
 }

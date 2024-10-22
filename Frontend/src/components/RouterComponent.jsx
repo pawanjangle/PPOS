@@ -5,15 +5,20 @@ import Inventory from './inventory/Inventory';
 import Billing from './billing/Billing';
 import Sales from './sales/Sales';
 import OrdersComponent from './orders/OrdersComponent';
+import LoginComponent from './Login/LoginComponent';
+import SignUpComponent from './signup/SignUpComponent';
 
 const RouterComponent = () => {
     return (
         <Routes>
-            <Route path='/' element={<Dashboard/>} />
+            <Route exact path='/' element={<Dashboard/>} />
             <Route path='/inventory' element={<Inventory/>} />
             <Route path='/billing' element={<Billing />} />
             <Route path='/sales' element={<Sales/>} />
             <Route path='/orders' element={<OrdersComponent/>} />
+            <Route path='/login' element={<LoginComponent/>} />
+            <Route path='/signup' element={<SignUpComponent/>} />
+            <Route path='/signin' element={<LoginComponent/>} />
         </Routes>)
 }
 

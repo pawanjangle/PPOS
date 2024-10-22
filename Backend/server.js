@@ -6,6 +6,7 @@ dotenv.config()
 const path = require("path");
 const product = require("./Routes/product");
 const order = require("./Routes/order");
+const auth = require("./Routes/auth");
 const bodyParser = require("body-parser")
 const cors = require("cors")
 
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === "production") {
 }
 app.use("/api/product/", product);
 app.use("/api/order/", order);
+app.use("/api/auth/", auth);
 
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../Frontend", "dist", "index.html"));
