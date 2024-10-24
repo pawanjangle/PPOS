@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RouterComponent from './components/RouterComponent';
@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 function App() {
   const navigate = useNavigate();
   const jwtSecret = import.meta.env.VITE_JWTSECRET
-  const secretKey = new TextEncoder().encode(jwtSecret); // Replace with your actual secret key
-
+  const secretKey = new TextEncoder().encode(jwtSecret);
+  
   useEffect(() => {
     handleAuthorization()
   }, [])
@@ -18,7 +18,8 @@ function App() {
     const token = localStorage.getItem("token");
     if (token) {
       const { payload } = await jwtVerify(token, secretKey);
-      console.log(payload); // Your JWT claims
+      console.log(payload);
+      navigate("/")
     }
     else {
       navigate("/signin")
@@ -28,15 +29,7 @@ function App() {
   return (
     <>
       <div className="main-div">
-        {/* <SignUpComponent /> */}
-        {/* <LoginComponent /> */}
         <RouterComponent />
-        {/* <SidebarComponent />
-        <div className="right-style">
-          <NavbarComponent />
-          <div className="App">
-          </div>
-        </div> */}
       </div>
     </>
   )

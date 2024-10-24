@@ -1,9 +1,13 @@
 import React from 'react'
+import WrapperComponent from '../wrapper/WrapperComponent'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <WrapperComponent>
+      <div className="main-container">Dashboard</div>
+    </WrapperComponent>
+
   )
-} 
+}
 
 export default Dashboard

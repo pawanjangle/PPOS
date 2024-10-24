@@ -1,0 +1,9 @@
+.wrapper-div{
+    display: flex;
+    height: 100%;
+}
+
+.right-style{
+    margin-left: 10px;
+    width: 100%;
+}

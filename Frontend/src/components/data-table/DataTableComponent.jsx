@@ -13,7 +13,7 @@ export default function DataTableComponent({ allProducts, allColumns, onCellEdit
 	return (
 		<div
 			className="ag-theme-quartz" // applying the Data Grid theme
-			style={{ height: "85%" }} // the Data Grid will fill the size of the parent container
+			style={{ height: "100%" }} // the Data Grid will fill the size of the parent container
 		>
 				<AgGridReact
 					rowData={rowData}

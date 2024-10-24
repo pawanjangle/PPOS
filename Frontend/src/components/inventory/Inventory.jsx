@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '../../redux/features/AlertSlice'
 import AlertComponent from '../alert/AlertComponent'
 import axios from 'axios'
+import WrapperComponent from '../wrapper/WrapperComponent'
 
 const Inventory = () => {
   const API_KEY = import.meta.env.VITE_API_KEY
@@ -298,24 +299,28 @@ const Inventory = () => {
 
   return (
     <>
-      <div className="main-container">
-        <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />
-        <div className="heading-div">
-          <h5>Stocks Inventory</h5>
-          <div className="heading-style">
-            {/* <Button variant="dark" className="import-button">Import Product</Button> */}
-            <Button className="add-button" onClick={handleShow}>Create Product</Button>
+      <WrapperComponent>
+        <div className="container-div">
+          <div className="main-container">
+            <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />
+            <div className="heading-div">
+              <h5>Stocks Inventory</h5>
+              <div className="heading-style">
+                {/* <Button variant="dark" className="import-button">Import Product</Button> */}
+                <Button className="add-button" onClick={handleShow}>Create Product</Button>
+              </div>
+            </div>
+
+            <CommonModal show={show} handleClose={handleClose} modalHeading="Create Product" modalBody={modalBody} submitModalButton="Create Product" handleSubmit={handleSubmit} />
           </div>
+
+          {allProducts.length !== 0 &&
+            <div className="table-container">
+              <DataTableComponent allProducts={allProducts} allColumns={colDefs} rowSelection="single" defaultColDef={defaultColDef} onCellEditingStopped={onCellEditingStopped} />
+            </div>
+          }
         </div>
-
-        <CommonModal show={show} handleClose={handleClose} modalHeading="Create Product" modalBody={modalBody} submitModalButton="Create Product" handleSubmit={handleSubmit} />
-      </div>
-
-      {allProducts.length !== 0 &&
-        <DataTableComponent allProducts={allProducts} allColumns={colDefs} rowSelection="single" defaultColDef={defaultColDef} onCellEditingStopped={onCellEditingStopped} />
-      }
-
-
+      </WrapperComponent>
     </>
   )
 }

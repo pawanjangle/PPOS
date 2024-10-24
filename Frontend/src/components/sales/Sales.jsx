@@ -1,8 +1,13 @@
 import React from 'react'
-
+import WrapperComponent from '../wrapper/WrapperComponent'
 const Sales = () => {
   return (
-    <div>Sales</div>
+
+    <div>
+      <WrapperComponent>
+        Sales
+      </WrapperComponent>
+    </div>
   )
 }
 

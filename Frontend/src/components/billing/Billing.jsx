@@ -13,6 +13,8 @@ import CartComponent from '../cart/CartComponent';
 import AlertComponent from '../alert/AlertComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '../../redux/features/AlertSlice'
+import WrapperComponent from '../wrapper/WrapperComponent';
+
 
 const Billing = () => {
     const alert = useSelector((state) => state.alert)
@@ -130,7 +132,7 @@ const Billing = () => {
         setCartProducts([])
     }
 
-    const createOrder= (payload)=>{
+    const createOrder = (payload) => {
         callcreateOrder(payload).then((res => {
             if (res.status == 200) {
                 dispatch(showAlert({
@@ -149,8 +151,8 @@ const Billing = () => {
             }
         }));
     }
-    
-    const handleAlert = ()=>{
+
+    const handleAlert = () => {
         dispatch(showAlert({
             alertState: true,
             alertType: "danger",
@@ -168,35 +170,38 @@ const Billing = () => {
 
     return (
         <>
-            <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />
-            <div className="wrapper">
-                <div className="left-side">
-                    <div className="form-width">
-                        {allProducts.length !== 0 &&
-                            <Form>
-                                <Form.Group className="mb-3" controlId="formBasicPassword">
-                                    <Typeahead
-                                        id="basic-typeahead-single"
-                                        labelKey="productName"
-                                        onChange={handleChange}
-                                        options={allProducts}
-                                        placeholder="Choose a Product..."
-                                        selected={selectedItem}
-                                        autoFocus
-                                    />
-                                </Form.Group>
-                            </Form>
+            <WrapperComponent>
+                <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />
+                <div className="wrapper">
+                    <div className="left-side">
+                        <div className="form-width">
+                            {allProducts.length !== 0 &&
+                                <Form>
+                                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                                        <Typeahead
+                                            id="basic-typeahead-single"
+                                            labelKey="productName"
+                                            onChange={handleChange}
+                                            options={allProducts}
+                                            placeholder="Choose a Product..."
+                                            selected={selectedItem}
+                                            autoFocus
+                                        />
+                                    </Form.Group>
+                                </Form>
+                            }
+                        </div>
+                        {/* <ScannerComponent/> */}
+                        {cartProducts.length !== 0 &&
+                            <DataTableComponent allProducts={cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
                         }
                     </div>
-                    {/* <ScannerComponent/> */}
-                    {cartProducts.length !== 0 &&
-                        <DataTableComponent allProducts={cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
-                    }
+                    <div className="right-side">
+
+                        <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} createOrder={createOrder} handleAlert={handleAlert} />
+                    </div>
                 </div>
-                <div className="right-side">
-                    <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} createOrder={createOrder} handleAlert={handleAlert} />
-                </div>
-            </div>
+            </WrapperComponent>
         </>
     )
 }

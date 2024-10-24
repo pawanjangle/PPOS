@@ -84,7 +84,7 @@ const LoginComponent = () => {
             if (res.status === 200) {
                 resetForm();
                 localStorage.setItem("token", res.data.token);
-                navigate({to: "/dashboard"})
+                navigate("/")
             }
             else if (res.status === 401) {
                 dispatch(showAlert({
