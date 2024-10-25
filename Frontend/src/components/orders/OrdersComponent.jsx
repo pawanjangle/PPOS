@@ -114,13 +114,13 @@ const OrdersComponent = () => {
                     onSelect={(k) => setKey(k)}
                     className="mb-3"
                 >
-                    <Tab eventKey="home" title="Paid Orders" style={{ height: "90vh", marginRight: "10px" }}>
+                    <Tab eventKey="home" title="Paid Orders" style={{ height: "75vh", marginRight: "10px" }}>
                         {paidOrders.length !== 0 ?
                             <DataTableComponent allProducts={paidOrders} allColumns={colDefs} defaultColDef={defaultColDef} /> :
                             <p style={{ marginLeft: "20px" }}>No Orders</p>
                         }
                     </Tab>
-                    <Tab eventKey="profile" title="Unpaid Orders" style={{ height: "90vh", marginRight: "10px" }}>
+                    <Tab eventKey="profile" title="Unpaid Orders" style={{ height: "75vh", marginRight: "10px" }}>
                         {unpaidOrders.length !== 0 ?
                             <DataTableComponent allProducts={unpaidOrders} allColumns={colDefs} defaultColDef={defaultColDef} /> :
                             <p style={{ marginLeft: "20px" }}>No Orders</p>

@@ -10,7 +10,7 @@ import AlertComponent from '../alert/AlertComponent';
 
 const LoginComponent = () => {
     const dispatch = useDispatch()
-    const alert = useSelector(state=>state.alert)
+    const alert = useSelector(state => state.alert)
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: "",
@@ -129,6 +129,11 @@ const LoginComponent = () => {
                             {mandatory !== "" && <p className="error-style">{mandatory}</p>}
                             <Link to="/reset">Forgot Password ?</Link>
                         </form>
+                        <div className="pl-2">
+                            <p>Dummy credentials</p>
+                            <p>email: admin@gmail.com</p>
+                            <p className>password: 123456</p>
+                        </div>
                     </div>
                     <div className="right">
                         <h3>Welcome to login</h3>
