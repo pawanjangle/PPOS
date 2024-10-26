@@ -1,6 +1,12 @@
-.main-heading{
-    font-weight: bold
-}
-.heading-box{
+.heading-box {
+    height: 40px;
     background-color: beige;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .main-heading { 
+        font-weight: bold;
+    }
 }

@@ -11,12 +11,10 @@ import WrapperComponent from './wrapper/WrapperComponent';
 
 
 const RouterComponent = () => {
-
-
     return (
         <>
                 <Routes>
-                    <Route exact path='/' element={<Billing />} />
+                    <Route exact path='/' element={<Dashboard />} />
                     <Route path='/inventory' element={<Inventory />} />
                     <Route path='/billing' element={<Billing />} />
                     <Route path='/sales' element={<Sales />} />

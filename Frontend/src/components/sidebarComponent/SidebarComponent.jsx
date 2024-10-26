@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./SidebarComponent.css"
 import { AiFillHome, AiOutlineProduct } from "react-icons/ai";
 import { FcSalesPerformance } from "react-icons/fc";
 import { TbReportSearch } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import { RiBillFill } from "react-icons/ri";
+import { RiArrowRightDoubleLine, RiBillFill } from "react-icons/ri";
 import poslogo from "../../assets/poslogo.png";
 import { MdBorderColor } from "react-icons/md";
+import { RiArrowLeftDoubleLine } from "react-icons/ri";
 
 const SidebarComponent = () => {
+  const [expand, setExpand] = useState(false)
   return (
     <>
-      <div className="main">
+
+      {expand ? <div className="main">
         <div className="brand-style">
           <img className="image-style" src={poslogo} alt="" />
           PPOS
@@ -40,7 +43,37 @@ const SidebarComponent = () => {
           <TbReportSearch />
           <li>Reports</li>
         </div>
-      </div>
+        <RiArrowLeftDoubleLine />
+      </div> :
+        <div className="main">
+          <div className="brand-style">
+            <img className="image-style" src={poslogo} alt="" />
+          </div>
+          <div className="link-style">
+            <Link to="/" className="link-text-style"><AiFillHome />
+            </Link>
+          </div>
+          <div className="link-style">
+            <Link to="/billing" className="link-text-style"><RiBillFill />
+            </Link>
+          </div>
+          <div className="link-style">
+            <Link to="/inventory" className="link-text-style"><AiOutlineProduct /></Link>
+          </div>
+          <div className="link-style">
+
+            <Link to="/orders" className="link-text-style"><MdBorderColor /></Link>
+          </div>
+          <div className="link-style">
+
+            <Link to="/sales" className="link-text-style"><FcSalesPerformance /></Link>
+          </div>
+          <div className="link-style">
+            <li><TbReportSearch /></li>
+          </div>
+          <div className="arrow-style"><RiArrowRightDoubleLine /></div>
+        </div>
+      }
     </>
   );
 }
