@@ -3,7 +3,7 @@ import WrapperComponent from '../wrapper/WrapperComponent'
 const Sales = () => {
   return (
 
-    <div>
+    <div style={{height:"100%"}}>
       <WrapperComponent>
         Sales
       </WrapperComponent>

@@ -104,7 +104,7 @@ const OrdersComponent = () => {
         setUnpaidOrders(unpaid)
     }
     return (
-        <div>
+        <div style={{height: "100%"}}>
             <WrapperComponent>
                 <h5 className="mb-3">Orders</h5>
                 <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />

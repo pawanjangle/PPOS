@@ -1,13 +1,10 @@
 .main {
     background-color: aqua;
     width: fit-content;
-    padding-left: 40px;
-    padding-right: 40px;
     border-radius: 10px;
     margin-left: 15px;
-    margin-bottom: 50px;
-    height: 100%;
     font-weight: bold;
+    position: relative;
     /* transition: all 1s; */
 
     .brand-style {
@@ -16,8 +13,10 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        padding-left: 40px;
+        padding-right: 40px;
 
-        .image-style{
+        .image-style {
             height: 30px;
             background-color: aqua;
         }
@@ -28,17 +27,26 @@
         align-items: center;
         list-style: none;
         text-decoration: none;
-        margin-top: 20px;
+        padding-left: 40px;
+        padding-right: 40px;
         gap: 10px;
+        height: 40px;
 
         .link-text-style {
             text-decoration: none;
             color: black;
         }
     }
-    .arrow-style{
-        border: 1px solid black;
+
+    .link-style:hover {
+        background-color: white;
+    }
+
+    .arrow-style {
         display: flex;
         align-items: flex-end;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
     }
 }

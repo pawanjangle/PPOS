@@ -60,9 +60,30 @@ const Billing = () => {
         sortable: true,
     }
 
+    const productAdded = (product) => {
+        for (let val of cartProducts) {
+            if (val._id == product._id) {
+                dispatch(showAlert({
+                    alertState: true,
+                    alertType: "danger",
+                    alertMessage: "Product is already present in the cart"
+                }))
+                setTimeout(() => {
+                    dispatch(showAlert({
+                        alertState: false,
+                        alertType: "",
+                        alertMessage: ""
+                    }))
+                }, 2000
+                )
+                return true
+            }
+        }
+        return false;
+    }
 
     const handleChange = (product) => {
-        if (product.length == 0 || cartProducts.includes(product[0])) {
+        if (product.length == 0 || productAdded(product[0])) {
             setSelectedItem(product)
             return
         }
