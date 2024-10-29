@@ -14,16 +14,15 @@ import AlertComponent from '../alert/AlertComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '../../redux/features/AlertSlice'
 import WrapperComponent from '../wrapper/WrapperComponent';
-
+import { addProductToCart, fetchProducts } from "../../redux/features/CartSlice"
 
 const Billing = () => {
     const alert = useSelector((state) => state.alert)
+    const cart = useSelector((state) => state.cart)
     const dispatch = useDispatch();
     const [allProducts, setAllProducts] = useState([]);
     const [cartProducts, setCartProducts] = useState([]);
-    const [rowData, setRowData] = useState(cartProducts);
     const [selectedItem, setSelectedItem] = useState("");
-    const [total, setTotal] = useState(0);
     const [colDefs, setColDefs] = useState([{
         field: "sNo", headerName: 'S. No.', width: 100,
     }, {
@@ -39,29 +38,15 @@ const Billing = () => {
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
-        handleAllProducts()
+      dispatch(fetchProducts());  
     }, [])
 
-    const handleAllProducts = () => {
-        callAllProducts().then(res => {
-            if (res.status == 200) {
-                setAllProducts(res.data.products)
-            }
-            else if (res.status == 400) {
-                console.log(res.data.message)
-            }
-        }
-        )
-            .catch(err => {
-                console.log(err)
-            })
-    }
     const defaultColDef = {
         sortable: true,
     }
 
     const productAdded = (product) => {
-        for (let val of cartProducts) {
+        for (let val of cart.cartProducts) {
             if (val._id == product._id) {
                 dispatch(showAlert({
                     alertState: true,
@@ -89,14 +74,16 @@ const Billing = () => {
         }
         if (product.length !== 0) {
             product[0].quantity = 1;
-            product[0].sNo = cartProducts.length + 1,
+            product[0].sNo = cart.cartProducts.length + 1,
                 setSelectedItem(product)
             let allCartProduct = [
-                ...cartProducts,
+                ...cart.cartProducts,
                 product[0],
             ]
-            setTotal(calculateTotal(allCartProduct));
-            setCartProducts(allCartProduct)
+            // setTotal(calculateTotal(allCartProduct));
+            let total = calculateTotal(allCartProduct)
+            dispatch(addProductToCart({ product: product[0], total }))
+            // setCartProducts(allCartProduct)
         }
     }
 
@@ -196,14 +183,14 @@ const Billing = () => {
                 <div className="wrapper">
                     <div className="left-side">
                         <div className="form-width">
-                            {allProducts.length !== 0 &&
+                            {cart.allProducts.length !== 0 &&
                                 <Form>
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
                                         <Typeahead
                                             id="basic-typeahead-single"
                                             labelKey="productName"
                                             onChange={handleChange}
-                                            options={allProducts}
+                                            options={cart.allProducts}
                                             placeholder="Choose a Product..."
                                             selected={selectedItem}
                                             autoFocus
@@ -213,13 +200,13 @@ const Billing = () => {
                             }
                         </div>
                         {/* <ScannerComponent/> */}
-                        {cartProducts.length !== 0 &&
-                            <DataTableComponent allProducts={cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
+                        {cart.cartProducts.length !== 0 &&
+                            <DataTableComponent allProducts={cart.cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
                         }
                     </div>
                     <div className="right-side">
 
-                        <CartComponent cartProducts={cartProducts} total={total} handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} createOrder={createOrder} handleAlert={handleAlert} />
+                        <CartComponent handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} createOrder={createOrder} handleAlert={handleAlert} />
                     </div>
                 </div>
             </WrapperComponent>

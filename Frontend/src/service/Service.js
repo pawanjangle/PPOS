@@ -1,6 +1,6 @@
-const baseUrl = "https://ppos.onrender.com"
+export const baseUrl = "https://ppos.onrender.com"
 import axios from 'axios';
-let endPoint = {
+export const endPoint = {
     createproduct: "/api/product/create-product",
     getproducts: "/api/product/get-products",
     updateproduct: "/api/product/update-product",
@@ -22,7 +22,7 @@ export const createProductfunction = async (product) => {
         return err
     }
 }
-export const callAllProducts = async (paylaod) => {
+export const callAllProducts = async () => {
     try {
         const res = await axios.get(baseUrl + endPoint.getproducts)
         return res

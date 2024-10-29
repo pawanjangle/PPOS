@@ -8,30 +8,27 @@ import { IoPrintSharp } from "react-icons/io5";
 import { useReactToPrint } from 'react-to-print';
 import BillPrint from '../billprint/BillPrint';
 import { Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { showAlert } from '../../redux/features/AlertSlice';
+import { useDispatch, useSelector } from 'react-redux'
+import {setCustomerData, setPaymentStatus} from '../../redux/features/CartSlice'
 
-const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDeleteCart, createOrder, handleAlert }) => {
-    const [formData, setFormData] = useState({ customerName: "" })
-    const [paymentStatus, setPaymentStatus] = useState("UnPaid")
+
+const CartComponent = ({handleRemoveFromCart, handleDeleteCart, createOrder, handleAlert }) => {
     const dispatch = useDispatch()
+    const cart = useSelector((state) => state.cart)
     const contentRef = useRef();
     const handlePrint = useReactToPrint({ contentRef });
     const shopName = "MK kirana stores"
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
+        dispatch(setCustomerData({customerName: cart.customerName, [e.target.name]: e.target.value}))
     }
 
     const handlePaymentStatus = (value) => {
-        setPaymentStatus(value)
+        dispatch(setPaymentStatus(value))
     }
 
     const validatePayment = ()=>{
-        if(paymentStatus == "UnPaid" && formData.customerName == ""){
+        if(cart.paymentStatus == "UnPaid" && cart.customerName == ""){
             handleAlert()
             return false
         }
@@ -43,11 +40,11 @@ const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDelete
             return
         }
         let payload = {
-            customerName : formData.customerName,
+            customerName : cart.customerName,
             shopName,
-            paymentStatus,
-            cartProducts,
-            total
+            paymentStatus: cart.paymentStatus,
+            cartProducts: cart.cartProducts,
+            total: cart.cartTotal
         }
         createOrder(payload);
     }
@@ -55,15 +52,15 @@ const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDelete
         <div className="cart-main">
             <Form>
                 <Form.Group className="mb-3" controlId="formProduct">
-                    <Form.Control type="text" placeholder="Enter Customer Name" name="customerName" value={formData.customerName} onChange={handleChange} required />
+                    <Form.Control type="text" placeholder="Enter Customer Name" name="customerName" value={cart.customerName} onChange={handleChange} required />
                 </Form.Group>
             </Form>
-            {cartProducts.length !== 0 && <Card className="card-style">
+            {cart.cartProducts.length !== 0 && <Card className="card-style">
                 <div className="cart-button-style">
                     <IoPrintSharp onClick={handlePrint} style={{ color: "blue" }} />
                     <BsFillCartXFill onClick={handleDeleteCart} style={{ color: "red" }} />
                 </div>
-                {cartProducts.map((cartProduct) => {
+                {cart.cartProducts.map((cartProduct) => {
                     return (
                         <div className="main-cart-div">
                             <div className="cart-wrapper">
@@ -89,15 +86,15 @@ const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDelete
                 })
                 }
             </Card>}
-            {cartProducts.length !== 0 && <Card className="total-card">
+            {cart.cartProducts.length !== 0 && <Card className="total-card">
                 <div className="total-inner-div">
                     <h6>Total</h6>
-                    <h6>Rs. {total}</h6>
+                    <h6>Rs. {cart.cartTotal}</h6>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
-                    <p>Payment Status: <span className="payStatus">{paymentStatus}</span></p>
+                    <p>Payment Status: <span className="payStatus">{cart.paymentStatus}</span></p>
                     <div className="payment-form">
-                        <Form.Select aria-label="Default select example" onChange={(e) => handlePaymentStatus(e.target.value)} value={paymentStatus}>
+                        <Form.Select aria-label="Default select example" onChange={(e) => handlePaymentStatus(e.target.value)} value={cart.paymentStatus}>
                             <option disabled={true}>Please Select</option>
                             <option value="Paid">Paid</option>
                             <option value="UnPaid">UnPaid</option>
@@ -109,7 +106,7 @@ const CartComponent = ({ cartProducts, total, handleRemoveFromCart, handleDelete
                 </div>
             </Card>}
             <div className="bill-style">
-                <BillPrint innerRef={contentRef} customerName={formData.customerName} cartProducts={cartProducts} shopName={shopName} total={total} paymentStatus={paymentStatus} />
+                <BillPrint innerRef={contentRef} customerName={cart.customerName} cartProducts={cart.cartProducts} shopName={shopName} total={cart.cartTotal} paymentStatus={cart.paymentStatus} />
             </div>
         </div>
     )
