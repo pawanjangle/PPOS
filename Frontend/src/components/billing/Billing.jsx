@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import "./Billing.css"
-import { callAllProducts, callcreateOrder, updateProduct } from '../../service/Service'
+import { callAllProducts, callcreateOrder } from '../../service/Service'
 import DataTableComponent from '../data-table/DataTableComponent'
 import Form from 'react-bootstrap/Form';
 import { Typeahead } from 'react-bootstrap-typeahead';
@@ -14,7 +14,7 @@ import AlertComponent from '../alert/AlertComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '../../redux/features/AlertSlice'
 import WrapperComponent from '../wrapper/WrapperComponent';
-import { addProductToCart, fetchProducts } from "../../redux/features/CartSlice"
+import { addProductToCart, fetchProducts, updateProduct } from "../../redux/features/CartSlice"
 
 const Billing = () => {
     const alert = useSelector((state) => state.alert)
@@ -23,6 +23,7 @@ const Billing = () => {
     const [allProducts, setAllProducts] = useState([]);
     const [cartProducts, setCartProducts] = useState([]);
     const [selectedItem, setSelectedItem] = useState("");
+    const [finalCart, setFinalCart] = useState(JSON.parse(JSON.stringify(cart.cartProducts)))
     const [colDefs, setColDefs] = useState([{
         field: "sNo", headerName: 'S. No.', width: 100,
     }, {
@@ -38,9 +39,27 @@ const Billing = () => {
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
-      dispatch(fetchProducts());  
+        handleAllProducts()
     }, [])
 
+    useEffect(() => {
+        setFinalCart(JSON.parse(JSON.stringify(cart.cartProducts)))
+    }, [cart.cartProducts])
+
+    const handleAllProducts = () => {
+        callAllProducts().then(res => {
+            if (res.status == 200) {
+                setAllProducts(res.data.products)
+            }
+            else if (res.status == 400) {
+                console.log(res.data.message)
+            }
+        }
+        )
+            .catch(err => {
+                console.log(err)
+            })
+    }
     const defaultColDef = {
         sortable: true,
     }
@@ -88,10 +107,11 @@ const Billing = () => {
     }
 
     const onCellEditingStopped = (data) => {
+        dispatch(updateProduct(data.data))
         updateProduct(data.data).then(res => {
-            cartProducts.map(obj => cartProducts.find(o => o._id === obj._id) || data.data);
+            cart.cartProducts.map(obj => cart.cartProducts.find(o => o._id === obj._id) || data.data);
             setCartProducts(cartProducts)
-            setTotal(calculateTotal(cartProducts));
+            setTotal(calculateTotal(cartProducts)); 
             dispatch(showAlert({
                 alertState: true,
                 alertType: "success",
@@ -183,14 +203,14 @@ const Billing = () => {
                 <div className="wrapper">
                     <div className="left-side">
                         <div className="form-width">
-                            {cart.allProducts.length !== 0 &&
+                            {allProducts.length !== 0 &&
                                 <Form>
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
                                         <Typeahead
                                             id="basic-typeahead-single"
                                             labelKey="productName"
                                             onChange={handleChange}
-                                            options={cart.allProducts}
+                                            options={allProducts}
                                             placeholder="Choose a Product..."
                                             selected={selectedItem}
                                             autoFocus
@@ -201,7 +221,7 @@ const Billing = () => {
                         </div>
                         {/* <ScannerComponent/> */}
                         {cart.cartProducts.length !== 0 &&
-                            <DataTableComponent allProducts={cart.cartProducts} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
+                            <DataTableComponent allProducts={finalCart} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
                         }
                     </div>
                     <div className="right-side">

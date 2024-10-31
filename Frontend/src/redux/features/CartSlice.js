@@ -17,6 +17,11 @@ export const fetchProducts = createAsyncThunk('cart/fetchProducts', async () => 
     const response = await axios.get(`${baseUrl}${endPoint.getproducts}`);
     return response.data
 })
+export const updateProduct = createAsyncThunk('cart/updateProduct', async (payload) => {
+    const response = await axios.post(`${baseUrl}${endPoint.updateproduct}`, payload);
+    response.data.payload = payload;
+    return response.data
+})
 
 
 export const cartSlice = createSlice({
@@ -37,11 +42,20 @@ export const cartSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProducts.fulfilled, (state, action) => {
-            state.allProducts.push(action.payload)
+            state.allProducts.push(action.payload.products)
         }).addCase(fetchProducts.pending, (state, action) => {
             state.allProducts = []
         }).addCase(fetchProducts.rejected, (state, action) => {
             state.allProducts = []
+        });
+        builder.addCase(updateProduct.fulfilled, (state, action) => {
+            console.log(state.cartProducts)
+            let cartProd = state.cartProducts.map(obj => {
+                return state.cartProducts.find(o => o._id === obj._id) || action.payload.payload
+            })
+            state.cartProducts = cartProd
+        }).addCase(updateProduct.pending, (state, action) => {
+        }).addCase(updateProduct.rejected, (state, action) => {
         })
     }
 })

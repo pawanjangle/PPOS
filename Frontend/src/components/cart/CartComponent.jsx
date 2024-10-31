@@ -62,7 +62,7 @@ const CartComponent = ({handleRemoveFromCart, handleDeleteCart, createOrder, han
                 </div>
                 {cart.cartProducts.map((cartProduct) => {
                     return (
-                        <div className="main-cart-div">
+                        <div key={cartProduct._id} className="main-cart-div">
                             <div className="cart-wrapper">
                                 <div className="cart-items">
                                     <p className="product-name">{cartProduct.productNameInHindi}</p>
