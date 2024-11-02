@@ -10,7 +10,7 @@ const BillPrint = ({ innerRef, shopName, cartProducts, customerName, total, paym
             </div>
             <p>Name: {customerName}</p>
 
-            {cartProducts.map((product, index) => {
+            {cartProducts.length !== 0 && cartProducts.map((product, index) => {
                 return (
                     <div key={index} className="cart-details">
                         <p>{index + 1}</p>

@@ -13,15 +13,15 @@ import CartComponent from '../cart/CartComponent';
 import AlertComponent from '../alert/AlertComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '../../redux/features/AlertSlice'
+import { hideAlert, setCartProducts } from '../../redux/features/CartSlice'
 import WrapperComponent from '../wrapper/WrapperComponent';
-import { addProductToCart, fetchProducts, updateProduct } from "../../redux/features/CartSlice"
+import { addProductToCart, fetchProducts, updateProduct, removeProductToCart, setCartEmpty } from "../../redux/features/CartSlice"
 
 const Billing = () => {
     const alert = useSelector((state) => state.alert)
     const cart = useSelector((state) => state.cart)
     const dispatch = useDispatch();
     const [allProducts, setAllProducts] = useState([]);
-    const [cartProducts, setCartProducts] = useState([]);
     const [selectedItem, setSelectedItem] = useState("");
     const [finalCart, setFinalCart] = useState(JSON.parse(JSON.stringify(cart.cartProducts)))
     const [colDefs, setColDefs] = useState([{
@@ -99,38 +99,23 @@ const Billing = () => {
                 ...cart.cartProducts,
                 product[0],
             ]
-            // setTotal(calculateTotal(allCartProduct));
             let total = calculateTotal(allCartProduct)
             dispatch(addProductToCart({ product: product[0], total }))
-            // setCartProducts(allCartProduct)
         }
     }
 
     const onCellEditingStopped = (data) => {
-        dispatch(updateProduct(data.data))
-        updateProduct(data.data).then(res => {
-            cart.cartProducts.map(obj => cart.cartProducts.find(o => o._id === obj._id) || data.data);
-            setCartProducts(cartProducts)
-            setTotal(calculateTotal(cartProducts)); 
-            dispatch(showAlert({
-                alertState: true,
-                alertType: "success",
-                alertMessage: res.data.message
-            }))
-            setTimeout(() => {
-                dispatch(showAlert({
-                    alertState: false,
-                    alertType: "",
-                    alertMessage: ""
-                }))
-            }, 2000
-            )
-            forceUpdate();
+        let payload = {
+            editedPrdouct: data.data,
+            allCartProducts: cart.cartProducts
         }
-        )
-            .catch(err => {
-                console.log(err)
-            })
+        dispatch(updateProduct(payload))
+        hideMessage()
+    }
+    const hideMessage = () => {
+        setTimeout(() => {
+            dispatch(hideAlert())
+        }, 2000)
     }
 
     const calculateTotal = (cartProducts) => {
@@ -142,7 +127,7 @@ const Billing = () => {
     }
 
     const handleRemoveFromCart = (selectedCartItemId) => {
-        let filteredCart = cartProducts.filter(product => product._id !== selectedCartItemId);
+        let filteredCart = cart.cartProducts.filter(product => product._id !== selectedCartItemId);
         let finalCart = filteredCart.map((cartProduct, index) => {
             return (
                 {
@@ -151,13 +136,10 @@ const Billing = () => {
                 }
             )
         })
-        calculateTotal(finalCart)
-        setTotal(calculateTotal(finalCart));
-        setCartProducts(finalCart)
+        dispatch(setCartProducts(finalCart))
     }
     const handleDeleteCart = () => {
-        setTotal(0);
-        setCartProducts([])
+        dispatch(setCartEmpty([]))
     }
 
     const createOrder = (payload) => {
@@ -199,7 +181,8 @@ const Billing = () => {
     return (
         <>
             <WrapperComponent>
-                <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />
+                {alert.alertMessage !== "" && <AlertComponent alertState={alert.alertState} alertType={alert.alertType} alertMessage={alert.alertMessage} />}
+                {cart.alertMessage !== "" && <AlertComponent alertState={cart.alertState} alertType={cart.alertType} alertMessage={cart.alertMessage} />}
                 <div className="wrapper">
                     <div className="left-side">
                         <div className="form-width">
