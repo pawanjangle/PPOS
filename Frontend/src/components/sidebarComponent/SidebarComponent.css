@@ -13,10 +13,13 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
 
         .image-style {
             height: 30px;
             background-color: aqua;
+            cursor: pointer;
         }
     }
 
@@ -24,14 +27,13 @@
         display: flex;
         list-style: none;
         text-decoration: none;
-        /* gap: 10px; */
         height: 40px;
 
         a.active {
             background-color: black;
-            /* Change this to your preferred color */
             color: white;
             width: 100%;
+            cursor: pointer;
         }
 
         .link-text-style {

@@ -16,10 +16,9 @@ const SidebarComponent = () => {
 
   return (
     <>
-
       {expand ? <div className="main">
         <div className="brand-style">
-          <img className="image-style" src={poslogo} alt="" />
+          <NavLink to="/"><img className="image-style" src={poslogo} alt="" /></NavLink>
           PPOS
         </div>
         <li className="link-style">
@@ -35,7 +34,7 @@ const SidebarComponent = () => {
           <NavLink to="/inventory" className="link-text-style" activeClassName="active"><div className="d-flex py-2"><span className="link-gap"><AiOutlineProduct /></span>
             <span>Inventory</span></div></NavLink>
         </li>
-       
+
         <li className="link-style">
           <NavLink to="/orders" className="link-text-style" activeClassName="active"><div className="d-flex py-2"><span className="link-gap"><MdBorderColor /></span>
             <span>Orders</span></div></NavLink>
@@ -48,7 +47,7 @@ const SidebarComponent = () => {
       </div> :
         <div className="main">
           <div className="brand-style">
-            <img className="image-style" src={poslogo} alt="" />
+            <NavLink to="/"><img className="image-style" src={poslogo} alt="" /></NavLink>
           </div>
           <div className="link-style" activeClassName="active">
             <NavLink to="/" className="link-text-style py-2"><AiFillHome />
