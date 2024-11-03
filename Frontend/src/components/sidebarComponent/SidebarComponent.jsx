@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import "./SidebarComponent.css"
 import { AiFillHome, AiOutlineProduct } from "react-icons/ai";
 import { FcSalesPerformance } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { RiArrowRightDoubleLine, RiBillFill } from "react-icons/ri";
 import poslogo from "../../assets/poslogo.png";
 import { MdBorderColor } from "react-icons/md";
@@ -13,9 +13,6 @@ const SidebarComponent = () => {
   const handleCollapse = () => {
     setExpand(!expand);
   }
-  const handleActive = () => {
-
-  }
 
   return (
     <>
@@ -25,49 +22,51 @@ const SidebarComponent = () => {
           <img className="image-style" src={poslogo} alt="" />
           PPOS
         </div>
-        <div className="link-style" onClick={handleActive}>
-          <AiFillHome />
-          <Link to="/" className="link-text-style">Dashboard</Link>
-        </div>
-        <div className="link-style">
-          <RiBillFill />
-          <Link to="/billing" className="link-text-style">Billing</Link>
-        </div>
-        <div className="link-style">
-          <AiOutlineProduct />
-          <Link to="/inventory" className="link-text-style">Inventory</Link>
-        </div>
-        <div className="link-style">
-          <MdBorderColor />
-          <Link to="/orders" className="link-text-style">Orders</Link>
-        </div>
-        <div className="link-style">
-          <FcSalesPerformance />
-          <Link to="/sales" className="link-text-style">Sales</Link>
-        </div>
+        <li className="link-style">
+          <NavLink to="/" className="link-text-style" activeClassName="active">
+            <div className="d-flex py-2"><span className="link-gap"><AiFillHome /></span>
+              <span>Dashboard</span></div></NavLink>
+        </li>
+        <li className="link-style">
+          <NavLink to="/billing" className="link-text-style" activeClassName="active"><div className="d-flex py-2"><span className="link-gap"><RiBillFill /></span>
+            <span>Billing</span></div></NavLink>
+        </li>
+        <li className="link-style">
+          <NavLink to="/inventory" className="link-text-style" activeClassName="active"><div className="d-flex py-2"><span className="link-gap"><AiOutlineProduct /></span>
+            <span>Inventory</span></div></NavLink>
+        </li>
+       
+        <li className="link-style">
+          <NavLink to="/orders" className="link-text-style" activeClassName="active"><div className="d-flex py-2"><span className="link-gap"><MdBorderColor /></span>
+            <span>Orders</span></div></NavLink>
+        </li>
+        <li className="link-style">
+          <NavLink to="/sales" className="link-text-style" activeClassName="active"><div className="d-flex py-2"><span className="link-gap"><FcSalesPerformance /></span>
+            <span>Sales</span></div></NavLink>
+        </li>
         <div className="arrow-style" ><RiArrowLeftDoubleLine size={30} onClick={handleCollapse} /></div>
       </div> :
         <div className="main">
           <div className="brand-style">
             <img className="image-style" src={poslogo} alt="" />
           </div>
-          <div className="link-style">
-            <Link to="/" className="link-text-style"><AiFillHome />
-            </Link>
+          <div className="link-style" activeClassName="active">
+            <NavLink to="/" className="link-text-style py-2"><AiFillHome />
+            </NavLink>
           </div>
           <div className="link-style">
-            <Link to="/billing" className="link-text-style"><RiBillFill />
-            </Link>
+            <NavLink to="/billing" activeClassName="active" className="link-text-style py-2"><RiBillFill />
+            </NavLink>
           </div>
           <div className="link-style">
-            <Link to="/inventory" className="link-text-style"><AiOutlineProduct /></Link>
+            <NavLink to="/inventory" activeClassName="active" className="link-text-style py-2"><AiOutlineProduct /></NavLink>
           </div>
           <div className="link-style">
 
-            <Link to="/orders" className="link-text-style"><MdBorderColor /></Link>
+            <NavLink to="/orders" activeClassName="active" className="link-text-style py-2"><MdBorderColor /></NavLink>
           </div>
           <div className="link-style">
-            <Link to="/sales" className="link-text-style"><FcSalesPerformance /></Link>
+            <NavLink to="/sales" activeClassName="active" className="link-text-style py-2"><FcSalesPerformance /></NavLink>
           </div>
           <div className="arrow-style"><RiArrowRightDoubleLine size={30} onClick={handleCollapse} /></div>
         </div>
