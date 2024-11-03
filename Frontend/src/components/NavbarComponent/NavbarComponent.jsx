@@ -13,9 +13,7 @@ const NavbarComponent = () => {
         <>
             <div className="heading-box">
                 <p className="main-heading">PPOS(Point of Sales)v1.0.1</p>
-                <Button onClick={handleLogout}>
-                    Logout
-                </Button>
+                <p className="text-danger">Logout</p>
             </div>
         </>
     )

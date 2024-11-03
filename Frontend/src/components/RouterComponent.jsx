@@ -7,7 +7,6 @@ import Sales from './sales/Sales';
 import OrdersComponent from './orders/OrdersComponent';
 import LoginComponent from './login/LoginComponent';
 import SignUpComponent from './signup/SignUpComponent';
-import WrapperComponent from './wrapper/WrapperComponent';
 
 
 const RouterComponent = () => {

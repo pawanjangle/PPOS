@@ -10,7 +10,8 @@ const WrapperComponent = ({ children, authorized }) => {
             <SidebarComponent />
             <div className="right-style">
                 <NavbarComponent />
-                <div>                {children}
+                <div>
+                    {children}
                 </div>
             </div>
 

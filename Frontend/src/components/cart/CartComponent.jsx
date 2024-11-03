@@ -9,10 +9,10 @@ import { useReactToPrint } from 'react-to-print';
 import BillPrint from '../billprint/BillPrint';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
-import {setCustomerData, setPaymentStatus} from '../../redux/features/CartSlice'
+import { setCustomerData, setPaymentStatus } from '../../redux/features/CartSlice'
 
 
-const CartComponent = ({handleRemoveFromCart, handleDeleteCart, createOrder, handleAlert }) => {
+const CartComponent = ({ handleRemoveFromCart, handleDeleteCart, createOrder, handleAlert }) => {
     const dispatch = useDispatch()
     const cart = useSelector((state) => state.cart)
     const contentRef = useRef();
@@ -20,15 +20,15 @@ const CartComponent = ({handleRemoveFromCart, handleDeleteCart, createOrder, han
     const shopName = "MK kirana stores"
 
     const handleChange = (e) => {
-        dispatch(setCustomerData({customerName: cart.customerName, [e.target.name]: e.target.value}))
+        dispatch(setCustomerData({ customerName: cart.customerName, [e.target.name]: e.target.value }))
     }
 
     const handlePaymentStatus = (value) => {
         dispatch(setPaymentStatus(value))
     }
 
-    const validatePayment = ()=>{
-        if(cart.paymentStatus == "UnPaid" && cart.customerName == ""){
+    const validatePayment = () => {
+        if (cart.paymentStatus == "UnPaid" && cart.customerName == "") {
             handleAlert()
             return false
         }
@@ -36,17 +36,18 @@ const CartComponent = ({handleRemoveFromCart, handleDeleteCart, createOrder, han
     }
 
     const handleOrder = () => {
-        if(!validatePayment()){
+        if (!validatePayment()) {
             return
         }
         let payload = {
-            customerName : cart.customerName,
+            customerName: cart.customerName,
             shopName,
             paymentStatus: cart.paymentStatus,
             cartProducts: cart.cartProducts,
             total: cart.cartTotal
         }
         createOrder(payload);
+        handlePrint()
     }
     return (
         <div className="cart-main">
@@ -57,7 +58,6 @@ const CartComponent = ({handleRemoveFromCart, handleDeleteCart, createOrder, han
             </Form>
             {cart.cartProducts.length !== 0 && <Card className="card-style">
                 <div className="cart-button-style">
-                    <IoPrintSharp onClick={handlePrint} style={{ color: "blue" }} />
                     <BsFillCartXFill onClick={handleDeleteCart} style={{ color: "red" }} />
                 </div>
                 {cart.cartProducts.map((cartProduct) => {
@@ -102,7 +102,8 @@ const CartComponent = ({handleRemoveFromCart, handleDeleteCart, createOrder, han
                     </div>
                 </div>
                 <div className="save-btn-container">
-                    <Button className="save-btn" onClick={handleOrder}>Save Order</Button>
+                    <Button className="save-btn" onClick={handleOrder}>Checkout <IoPrintSharp style={{ color: "blue" }} />
+                    </Button>
                 </div>
             </Card>}
             <div className="bill-style">

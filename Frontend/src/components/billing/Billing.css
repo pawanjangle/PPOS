@@ -5,12 +5,16 @@
 
     .left-side {
         width: 65%;
-        height: 90vh;
+        height:100%;
         display: flex;
         flex-direction: column;
+        padding-bottom: 20px;
 
         .form-width {
             width: 90%;
+        }
+        .table-height{
+            height: 100%
         }
     }
 

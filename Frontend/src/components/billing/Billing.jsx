@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import "./Billing.css"
-import { callAllProducts, callcreateOrder } from '../../service/Service'
+import { callAllProducts } from '../../service/Service'
 import DataTableComponent from '../data-table/DataTableComponent'
 import Form from 'react-bootstrap/Form';
 import { Typeahead } from 'react-bootstrap-typeahead';
@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showAlert } from '../../redux/features/AlertSlice'
 import { hideAlert, setCartProducts } from '../../redux/features/CartSlice'
 import WrapperComponent from '../wrapper/WrapperComponent';
-import { addProductToCart, fetchProducts, updateProduct, removeProductToCart, setCartEmpty } from "../../redux/features/CartSlice"
+import { addProductToCart, updateProduct, setCartEmpty, callcreateOrder } from "../../redux/features/CartSlice"
 
 const Billing = () => {
     const alert = useSelector((state) => state.alert)
@@ -36,7 +36,6 @@ const Billing = () => {
     { field: "price", headerName: 'Price per unit', width: 100, editable: true },
     { field: "unit", width: 100, editable: true },
     ]);
-    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
         handleAllProducts()
@@ -143,23 +142,8 @@ const Billing = () => {
     }
 
     const createOrder = (payload) => {
-        callcreateOrder(payload).then((res => {
-            if (res.status == 200) {
-                dispatch(showAlert({
-                    alertState: true,
-                    alertType: "success",
-                    alertMessage: res.data.message
-                }))
-                setTimeout(() => {
-                    dispatch(showAlert({
-                        alertState: false,
-                        alertType: "",
-                        alertMessage: ""
-                    }))
-                }, 2000
-                )
-            }
-        }));
+        dispatch(callcreateOrder(payload))
+        hideMessage()
     }
 
     const handleAlert = () => {
@@ -204,11 +188,13 @@ const Billing = () => {
                         </div>
                         {/* <ScannerComponent/> */}
                         {cart.cartProducts.length !== 0 &&
-                            <DataTableComponent allProducts={finalCart} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
+                            <div className="table-height">
+                                <DataTableComponent allProducts={finalCart} allColumns={colDefs} onCellEditingStopped={onCellEditingStopped} defaultColDef={defaultColDef} />
+                            </div>
+
                         }
                     </div>
                     <div className="right-side">
-
                         <CartComponent handleRemoveFromCart={handleRemoveFromCart} handleDeleteCart={handleDeleteCart} createOrder={createOrder} handleAlert={handleAlert} />
                     </div>
                 </div>

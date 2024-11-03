@@ -21,6 +21,8 @@ export default function DataTableComponent({ allProducts, allColumns, onCellEdit
 					pagination={true}
 					defaultColDef={defaultColDef}
 					onCellEditingStopped={onCellEditingStopped}
+					paginationPageSizeSelector={[10, 20, 50]}
+					paginationPageSize={10} 
 				/>
 		</div>
 	);

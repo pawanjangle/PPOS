@@ -36,6 +36,10 @@ export const updateProduct = createAsyncThunk('cart/updateProduct', async (cartD
     response.data.total = calculateTotal(finalCart)
     return response.data
 })
+export const callcreateOrder = createAsyncThunk('cart/callcreateOrder', async (orderData) => {
+    const response = await axios.post(`${baseUrl}${endPoint.createOrder}`, orderData);
+    return response.data
+})
 
 export const cartSlice = createSlice({
     name: 'cart',
@@ -50,18 +54,18 @@ export const cartSlice = createSlice({
             state.customerName = action.payload.customerName
         },
         setPaymentStatus: (state, action) => {
-            state.paymentStatus = action.payload.paymentStatus
+            state.paymentStatus = action.payload
         },
         hideAlert: (state) => {
             state.alertState = false
             state.alertType = ""
             state.alertMessage = ""
         },
-        setCartProducts: (state, action)=>{
+        setCartProducts: (state, action) => {
             state.cartProducts = action.payload
             state.cartTotal = calculateTotal(action.payload)
         },
-        setCartEmpty: (state)=>{
+        setCartEmpty: (state) => {
             state.cartProducts = [];
             state.cartTotal = 0;
         }
@@ -87,6 +91,17 @@ export const cartSlice = createSlice({
             state.error = ""
         }).addCase(updateProduct.rejected, (state, action) => {
             state.error = action.payload.error
+        })
+        builder.addCase(callcreateOrder.fulfilled, (state, action) => {
+            state.alertState = true
+            state.alertType = "success"
+            state.alertMessage = action.payload.message
+        }).addCase(callcreateOrder.pending, (state, action) => {
+            // state.error = ""
+        }).addCase(callcreateOrder.rejected, (state, action) => {
+            state.alertState = true
+            state.alertType = "danger"
+            state.alertMessage = action.payload.message
         })
     }
 })
